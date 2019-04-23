@@ -1,0 +1,21 @@
+{
+  "name": "sharpr-bi-report-graphs-2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "start": "parcel index.html --open",
+    "build": "parcel build index.html"
+  },
+  "dependencies": {
+    "d3": "5.9.2",
+    "d3-tip": "0.9.1",
+    "d3plus-text": "0.9.43",
+    "moment": "2.24.0"
+  },
+  "devDependencies": {
+    "@babel/core": "7.2.0",
+    "parcel-bundler": "^1.6.1"
+  },
+  "keywords": []
+}
