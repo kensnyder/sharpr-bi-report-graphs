@@ -30,85 +30,99 @@ export function bubbles({
   // const max = Math.max.apply(null, values);
   // const total = data.children.length;
 
-  var bubble = pack()
-    .size([width, width])
-    .padding(0);
+  const svg = createSvg();
+  const root = setupHierarchy(svg);
+  const bubbles = renderBubbles(svg, root);
+  setupToolTips(bubbles);
+  renderLabels(bubbles);
 
-  var tip = new ToolTip();
-  tip
-    .attr('class', 'sh-chart-bubbles-tip-outer')
-    .offset([-38, 0])
-    .html((d, i) => {
-      const item = data.children[i];
-      const color = getColor(i, values.length);
-      return `
-        <div class="sh-chart-bubbles-tip" style="background-color: ${color}">
-          ${item.label} (${item.value})
-        </div>
-        <div class="sh-chart-bubbles-stem" style="border-color: ${color} transparent transparent transparent"></div>
-      `;
-    });
-
-  var svg = select(withinElement)
-    .append('svg')
-    .attr('width', width)
-    .attr('height', width)
-    .attr('class', 'sh-chart-bubbles');
-
-  svg.append('style').text(css);
-  var root = hierarchy(data).sum(d => d.value);
-
-  bubble(root);
-
-  var nodes = svg
-    .selectAll('.node')
-    .data(root.children)
-    .enter()
-    .append('g')
-    .attr('class', 'node')
-    .attr('transform', d => `translate(${d.x} ${d.y})`)
-    .append('g')
-    .attr('class', 'graph');
-
-  nodes
-    .append('circle')
-    .attr('r', d => d.r)
-    .style('fill', getItemColor)
-    // handling click
-    .on('click', (node, i) => onClick(node.data, i))
-    // tooltips
-    .on('mouseover', tip.show)
-    .on('mouseout', tip.hide)
-    // pre-animation styles
-    .style('opacity', 0)
-    .style('transform', 'scale(0.80)')
-    // animation setup
-    .transition()
-    .duration(animationDuration)
-    .delay((d, i) => animationOffset * i)
-    // post-animation styles
-    .style('opacity', 1)
-    .style('transform', 'scale(1)');
-
-  nodes.call(tip);
-
-  nodes
-    .append('text')
-    .attr('class', 'bubble-label')
-    .attr('dy', '0.2em')
-    .style('text-anchor', 'middle')
-    .text(node => node.data.label)
-    // pre-animation styles
-    .style('opacity', 0)
-    .style('transform', 'rotate(-8deg)')
-    // animation setup
-    .transition()
-    .duration(animationDuration)
-    .delay((d, i) => animationOffset * i)
-    // post-animation styles
-    .style('opacity', 1)
-    .style('transform', 'rotate(0)');
-
+  // functions only beyond this point
+  function createSvg() {
+    const svg = select(withinElement)
+      .append('svg')
+      .attr('width', width)
+      .attr('height', width)
+      .attr('class', 'sh-chart-bubbles');
+    svg.append('style').text(css);
+    return svg;
+  }
+  function setupHierarchy(svg) {
+    const bubble = pack()
+      .size([width, width])
+      .padding(0);
+    const root = hierarchy(data).sum(d => d.value);
+    bubble(root);
+    return root;
+  }
+  function renderBubbles(svg, root) {
+    const bubbles = svg
+      .selectAll('.node')
+      .data(root.children)
+      .enter()
+      .append('g')
+      .attr('class', 'node')
+      .attr('transform', d => `translate(${d.x} ${d.y})`)
+      .append('g')
+      .attr('class', 'graph');
+    bubbles
+      .append('circle')
+      .attr('r', d => d.r)
+      .style('fill', getItemColor)
+      // handling click
+      .on('click', (node, i) => onClick(node.data, i))
+      // pre-animation styles
+      .style('opacity', 0)
+      .style('transform', 'scale(0.80)')
+      // animation setup
+      .transition()
+      .duration(animationDuration)
+      .delay((d, i) => animationOffset * i)
+      // post-animation styles
+      .style('opacity', 1)
+      .style('transform', 'scale(1)');
+    return bubbles;
+  }
+  function setupToolTips(bubbles) {
+    // create new tooltip manager
+    const tip = new ToolTip();
+    tip
+      .attr('class', 'sh-chart-bubbles-tip-outer')
+      .offset([-38, 0])
+      .html((d, i) => {
+        const item = data.children[i];
+        const color = getColor(i, values.length);
+        return `
+					<div class="sh-chart-bubbles-tip" style="background-color: ${color}">
+						${item.label} (${numberFormat(item.value)})
+					</div>
+					<div class="sh-chart-bubbles-stem" style="border-color: ${color} transparent transparent transparent"></div>
+				`;
+      });
+    // apply tooltips to bubbles
+    bubbles
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide)
+      .call(tip);
+    return tip;
+  }
+  function renderLabels(bubbles) {
+    bubbles
+      .append('text')
+      .attr('class', 'bubble-label')
+      .attr('dy', '0.2em')
+      .style('text-anchor', 'middle')
+      .text(node => node.data.label)
+      // pre-animation styles
+      .style('opacity', 0)
+      .style('transform', 'rotate(-8deg)')
+      // animation setup
+      .transition()
+      .duration(animationDuration)
+      .delay((d, i) => animationOffset * i)
+      // post-animation styles
+      .style('opacity', 1)
+      .style('transform', 'rotate(0)');
+  }
   // nodes.each(node => {
   //   const box = new d3PlusText.TextBox()
   //     .data([{ text: node.data.label }])
@@ -165,13 +179,13 @@ export function bubbles({
   //   }
   //   return numberFormat(item.data.value);
   // }
-  function truncate(label) {
-    const max = 11;
-    if (label.length > max) {
-      label = label.slice(0, max) + '...';
-    }
-    return label;
-  }
+  // function truncate(label) {
+  //   const max = 11;
+  //   if (label.length > max) {
+  //     label = label.slice(0, max) + '...';
+  //   }
+  //   return label;
+  // }
   // function getFontSizeForItem(item) {
   //   return getFontSize(item.data.value, min, max, total);
   // }

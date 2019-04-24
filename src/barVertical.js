@@ -184,7 +184,7 @@ export function barVertical({
     groups
       .append('text')
       .attr('class', 'chart-value')
-      .attr('x', barWidth / 2)
+      .attr('x', barWidth / 2 - 0.5)
       .attr('y', d => (highest - d.value) * barPxPerValue - barNumberPadding)
       .attr('width', barWidth)
       .attr('text-anchor', 'middle')
