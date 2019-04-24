@@ -1,4 +1,6 @@
-import * as d3 from 'd3';
+import { select } from 'd3-selection';
+import 'd3-transition';
+import { scaleLinear } from 'd3-scale';
 import { numberFormat } from './helpers/numberFormat.js';
 
 const css = `
@@ -26,10 +28,10 @@ export function barVertical({
   height,
   width,
   onClick,
-  withinElement
+  withinElement,
+  animationDuration = 500,
+  animationOffset = 40
 }) {
-  const animationDuration = 500;
-  const animationOffset = 40;
   const fontSize = 13;
   const tickHeight = fontSize * 0.75;
   const barSpacing = 4;
@@ -74,8 +76,7 @@ export function barVertical({
   // functions only below
   function createSvg(withinElement) {
     // create the svg and set its size
-    const svg = d3
-      .select(withinElement)
+    const svg = select(withinElement)
       .append('svg')
       .attr('class', 'sh-chart-bar-vertical')
       .attr('width', width)
@@ -94,7 +95,9 @@ export function barVertical({
         const left = i * (barWidth + barSpacing) + barAreaLeft + barSpacing / 2;
         const top = barAreaTop;
         return `translate(${left}, ${top})`;
-      });
+      })
+      .style('cursor', onClick ? 'pointer' : 'default')
+      .on('click', onClick);
     return groups;
   }
   function renderBars(groups) {
@@ -163,8 +166,7 @@ export function barVertical({
       .text(d => d.label);
   }
   function getYAxisValues() {
-    const yScale = d3
-      .scaleLinear()
+    const yScale = scaleLinear()
       .domain([0, highest])
       .nice();
     const ticks = yScale.ticks(numYAxisLabels + 1);

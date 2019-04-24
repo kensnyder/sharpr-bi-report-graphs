@@ -1,4 +1,5 @@
-import * as d3 from 'd3';
+import { select } from 'd3-selection';
+import 'd3-transition';
 import { getColor } from './helpers/getColor.js';
 import { numberFormat } from './helpers/numberFormat.js';
 
@@ -31,11 +32,11 @@ export function barHorizontal({
   links,
   onClick,
   linkColor = '#EE5834',
-  withinElement
+  withinElement,
+  animationDuration = 500,
+  animationOffset = 40
 }) {
   // setup variables
-  const animationDuration = 500;
-  const animationOffset = 40;
   const fontSize = 13;
   const spacing = between(45, 55)(550 / data.length);
   const height = data.length * spacing;
@@ -52,8 +53,7 @@ export function barHorizontal({
   // functions only below
   function createSvg(withinElement) {
     // create the svg and set its size
-    const svg = d3
-      .select(withinElement)
+    const svg = select(withinElement)
       .append('svg')
       .attr('class', 'sh-chart-bar-horizontal')
       .attr('width', width)
@@ -83,6 +83,7 @@ export function barHorizontal({
       .attr('fill', 'transparent');
     // .attr('fill', 'rgba(0,0,0,0.1)')
     if (onClick) {
+      rect.style('cursor', 'pointer');
       rect.on('click', onClick);
     }
   }

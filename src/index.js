@@ -60,6 +60,7 @@ function runBarVertical() {
     height: 450,
     color: '#EB2470',
     data,
+    onClick: (...args) => console.log('onclick', args),
     withinElement: '#ChartArea'
   });
 }
