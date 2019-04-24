@@ -33,7 +33,7 @@ document.querySelector('.tabs').addEventListener('click', evt => {
 });
 
 // default chart
-runBarHorizontal();
+runBubbles();
 
 // functions only beyond this point
 function runBarHorizontal() {

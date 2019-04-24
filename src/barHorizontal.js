@@ -36,11 +36,12 @@ export function barHorizontal({
   // setup variables
   const animationDuration = 500;
   const animationOffset = 40;
+  const fontSize = 13;
   const spacing = between(45, 55)(550 / data.length);
   const height = data.length * spacing;
   const highest = data[0].value;
-  const highestWidth = String(numberFormat(highest)).length * 15;
-  const scaleAt = ((width - highestWidth) / highest).toFixed(2);
+  const highestWidth = (numberFormat(highest).length + 2) * fontSize * 0.5;
+  const scaleAt = (width - highestWidth) / highest;
   // run it
   const svg = createSvg(withinElement);
   const groups = createGroups(svg);
