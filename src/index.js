@@ -19,6 +19,7 @@ document.querySelector('#app').innerHTML = `
 `;
 
 document.querySelector('.tabs').addEventListener('click', evt => {
+  const links = [...document.querySelectorAll('.tabs a')];
   const fns = {
     runBarHorizontal,
     runBarVertical,
@@ -26,6 +27,8 @@ document.querySelector('.tabs').addEventListener('click', evt => {
   };
   if (evt.target.tagName.toUpperCase() === 'A') {
     evt.preventDefault();
+    links.forEach(link => link.classList.remove('selected'));
+    evt.target.classList.add('selected');
     const fn = fns[evt.target.getAttribute('data-fn')];
     document.querySelector('#ChartArea').innerHTML = '';
     fn();
@@ -33,7 +36,7 @@ document.querySelector('.tabs').addEventListener('click', evt => {
 });
 
 // default chart
-runBubbles();
+document.querySelectorAll('.tabs a')[0].click();
 
 // functions only beyond this point
 function runBarHorizontal() {
