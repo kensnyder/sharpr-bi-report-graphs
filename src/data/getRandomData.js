@@ -1,13 +1,11 @@
-import moment from 'moment';
-
 export function getRandomFiles() {
   let n = rand(3, 25);
-  const min = 0;
+  const min = 1;
   const magnitude = rand(2, 6);
   const max = rand(Math.pow(10, magnitude - 1), Math.pow(10, magnitude));
   /* prettier-ignore */
   const buzzwords = ['Annual', 'Consumer', 'Digital', 'Brand', 'Marketing', 'Research', 'Report', 'Competitive', 'Analysis', 'Quarterly', 'Monthly', 'Summary', 'Product'];
-  const extensions = ['.pdf', '.pptx', '.docx', '.xlsx', '.mov'];
+  const extensions = ['.pdf', '.pptx', '.docx', '.xlsx', '.mp4'];
   const data = [];
   while (n--) {
     data.push({
@@ -58,7 +56,7 @@ export function getRandomTrend() {
   while (n--) {
     let date = new Date(startDate - n * 1000 * 60 * 60 * 24);
     data.push({
-      label: moment(date).format('MMM D'),
+      label: formatDate(date),
       value: rand(min, max)
     });
   }
@@ -80,4 +78,11 @@ export function rand(min, max) {
 
 export function pick(array) {
   return array[rand(0, array.length - 1)];
+}
+
+export function formatDate(date) {
+  const months = 'Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec'.split(',');
+  const month = months[date.getMonth()];
+  const day = date.getDate();
+  return `${month} ${day}`;
 }
