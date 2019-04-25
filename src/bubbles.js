@@ -2,14 +2,11 @@ import { select } from 'd3-selection';
 import 'd3-transition';
 import { pack, hierarchy } from 'd3-hierarchy';
 import ToolTip from 'd3-tip';
-// import * as d3PlusText from 'd3plus-text';
 import { getColor } from './helpers/getColor.js';
 import { numberFormat } from './helpers/numberFormat.js';
 
-// console.log({ d3PlusText });
-
 const css = `
-@import url(https://fonts.googleapis.com/css?family=Roboto:400);
+@import url(https://fonts.googleapis.com/css?family=Roboto:100,400);
 text {
   font-family: Roboto, sans-serif;
 	fill: white;
@@ -25,16 +22,25 @@ export function bubbles({
   animationDuration = 500,
   animationOffset = 40
 }) {
-  const values = data.children.map(d => d.value);
-  // const min = Math.min.apply(null, values);
-  // const max = Math.max.apply(null, values);
-  // const total = data.children.length;
-
+  // make sure bubbles don't get too small visually
+  // by giving them a minimum value
+  const values = data.map(d => d.value);
+  const min = Math.min.apply(null, values);
+  const max = Math.max.apply(null, values);
+  data.forEach(d => {
+    d.actualCount = d.value;
+    if (d.value < max / 40) {
+      console.log(d.label, d.value, max);
+      d.value = max / 40;
+    }
+  });
+  // setup and render
   const svg = createSvg();
   const root = setupHierarchy(svg);
   const bubbles = renderBubbles(svg, root);
   setupToolTips(bubbles);
   renderLabels(bubbles);
+  autosizeLabels();
 
   // functions only beyond this point
   function createSvg() {
@@ -50,24 +56,23 @@ export function bubbles({
     const bubble = pack()
       .size([width, width])
       .padding(0);
-    const root = hierarchy(data).sum(d => d.value);
+    const root = hierarchy({ children: data }).sum(d => d.value);
     bubble(root);
     return root;
   }
   function renderBubbles(svg, root) {
     const bubbles = svg
-      .selectAll('.node')
+      .selectAll('.bubble-container')
       .data(root.children)
       .enter()
       .append('g')
-      .attr('class', 'node')
-      .attr('transform', d => `translate(${d.x} ${d.y})`)
-      .append('g')
-      .attr('class', 'graph');
+      .attr('class', 'bubble-container')
+      .attr('transform', d => `translate(${d.x} ${d.y})`);
     bubbles
       .append('circle')
-      .attr('r', d => d.r)
-      .style('fill', getItemColor)
+      .attr('class', 'bubble')
+      .attr('r', node => node.r)
+      .style('fill', (node, i) => getColor(i, data.length))
       // handling click
       .on('click', (node, i) => onClick(node.data, i))
       // pre-animation styles
@@ -76,7 +81,7 @@ export function bubbles({
       // animation setup
       .transition()
       .duration(animationDuration)
-      .delay((d, i) => animationOffset * i)
+      .delay((node, i) => animationOffset * i)
       // post-animation styles
       .style('opacity', 1)
       .style('transform', 'scale(1)');
@@ -88,12 +93,11 @@ export function bubbles({
     tip
       .attr('class', 'sh-chart-bubbles-tip-outer')
       .offset([-38, 0])
-      .html((d, i) => {
-        const item = data.children[i];
+      .html((node, i) => {
         const color = getColor(i, values.length);
         return `
 					<div class="sh-chart-bubbles-tip" style="background-color: ${color}">
-						${item.label} (${numberFormat(item.value)})
+						${node.data.label} (${numberFormat(node.data.actualCount)})
 					</div>
 					<div class="sh-chart-bubbles-stem" style="border-color: ${color} transparent transparent transparent"></div>
 				`;
@@ -109,8 +113,9 @@ export function bubbles({
     bubbles
       .append('text')
       .attr('class', 'bubble-label')
-      .attr('dy', '0.2em')
+      .attr('dy', '0')
       .style('text-anchor', 'middle')
+      .style('font-size', getFontSizeLabel)
       .text(node => node.data.label)
       // pre-animation styles
       .style('opacity', 0)
@@ -118,84 +123,91 @@ export function bubbles({
       // animation setup
       .transition()
       .duration(animationDuration)
-      .delay((d, i) => animationOffset * i)
+      .delay((node, i) => animationOffset * i)
+      // post-animation styles
+      .style('opacity', 1)
+      .style('transform', 'rotate(0)');
+    bubbles
+      .append('text')
+      .attr('class', 'bubble-amount')
+      .attr('dy', '1.2em')
+      .style('text-anchor', 'middle')
+      .style('font-weight', '100')
+      .style('font-size', getFontSizeAmount)
+      .text(node => numberFormat(node.data.actualCount))
+      // pre-animation styles
+      .style('opacity', 0)
+      .style('transform', 'rotate(-8deg)')
+      // animation setup
+      .transition()
+      .duration(animationDuration)
+      .delay((node, i) => animationOffset * i)
       // post-animation styles
       .style('opacity', 1)
       .style('transform', 'rotate(0)');
   }
-  // nodes.each(node => {
-  //   const box = new d3PlusText.TextBox()
-  //     .data([{ text: node.data.label }])
-  //     // .shape('circle')
-  //     .width(node.r)
-  //     .height(node.r / 2)
-  //     .fontFamily('Roboto')
-  //     .fontResize(true)
-  //     .fontMin(13)
-  //     .fontMax(30)
-  //     .padding(3)
-  //     .maxLines(3)
-  //     .textAnchor('middle')
-  //     .verticalAlign('middle')
-  //     .x(node.x)
-  //     .y(node.y)
-  //     .container(d3.select(node))
-  //     .render();
-  // });
-
-  // nodes
-  //   .append('text')
-  //   .attr('dy', '1.3em')
-  //   .style('text-anchor', 'middle')
-  //   .style('font-family', 'Roboto')
-  //   .style('font-weight', '100')
-  //   .style('font-size', getFontSizeForItem)
-  //   .text(getValueText)
-  //   .style('fill', '#ffffff')
-  //   .style('pointer-events', 'none')
-  //   // pre-animation styles
-  //   .style('opacity', 0)
-  //   .style('transform', 'rotate(-8deg)')
-  //   // animation setup
-  //   .transition()
-  //   .duration(600)
-  //   .delay((d, i) => 40 * i)
-  //   // post-animation styles
-  //   .style('opacity', 1)
-  //   .style('transform', 'rotate(0)');
-
-  function getItemColor(item, i) {
-    return getColor(i, data.children.length);
+  function autosizeLabels() {
+    const container = svg.node();
+    const labels = container.querySelectorAll('.bubble-label');
+    [...labels].forEach(label => {
+      const currSize = parseFloat(label.style.fontSize);
+      if (circleLabelRatio(label) < 1) {
+        trySmallerFont(label, currSize - 1);
+      }
+    });
+    const amounts = container.querySelectorAll('.bubble-amount');
+    [...amounts].forEach(amount => {
+      const label = amount.previousSibling;
+      if (label.textContent === '') {
+        amount.textContent = '';
+      }
+    });
   }
-  // function getLabel(item) {
-  //   if (item.data.value < max / 3.3) {
-  //     return '';
-  //   }
-  //   return truncate(item.data.label);
-  // }
-  // function getValueText(item) {
-  //   if (item.data.value < max / 3.3) {
-  //     return '';
-  //   }
-  //   return numberFormat(item.data.value);
-  // }
-  // function truncate(label) {
-  //   const max = 11;
-  //   if (label.length > max) {
-  //     label = label.slice(0, max) + '...';
-  //   }
-  //   return label;
-  // }
-  // function getFontSizeForItem(item) {
-  //   return getFontSize(item.data.value, min, max, total);
-  // }
-  // function getFontSize(value, min, max, total) {
-  //   const minPx = 6;
-  //   const maxPx = 25;
-  //   const pxRange = maxPx - minPx;
-  //   const dataRange = max - min;
-  //   const ratio = pxRange / dataRange;
-  //   const size = Math.min(maxPx, Math.round(value * ratio) + minPx);
-  //   return `${size}px`;
-  // }
+  function circleLabelRatio(label) {
+    const circle = label.previousSibling;
+    const circleWidth = circle.getBoundingClientRect().width;
+    const labelWidth = label.getBoundingClientRect().width;
+    // 3% padding each side nets 0.94
+    return (circleWidth * 0.94) / labelWidth;
+  }
+  function trySmallerFont(label, px) {
+    label.style.fontSize = px + 'px';
+    const ratio = circleLabelRatio(label);
+    const text = label.textContent;
+    if (ratio > 1) {
+      return;
+    }
+    // we could cut off a bit and still be the same size
+    if (ratio * text.length > px * 0.5) {
+      const keepChars = Math.floor(ratio * text.length);
+      if (text.length - keepChars > 2) {
+        label.textContent = text.slice(0, keepChars) + '...';
+        return;
+      }
+    }
+    if (px <= 12) {
+      // smallest that we go!
+      label.textContent = '';
+      return;
+    }
+    trySmallerFont(label, px - 2);
+  }
+  function getFontSizeLabel(d) {
+    const minPx = 12;
+    const maxPx = 25;
+    const pxRange = maxPx - minPx;
+    const dataRange = max - min;
+    const ratio = pxRange / dataRange;
+    const size = Math.min(maxPx, Math.round(d.value * ratio) + minPx);
+    return `${size}px`;
+  }
+  function getFontSizeAmount(d) {
+    const minPx = 10;
+    const maxPx = 16;
+    const pxRange = maxPx - minPx;
+    const dataRange = max - min;
+    const ratio = pxRange / dataRange;
+    const size = Math.min(maxPx, Math.round(d.value * ratio) + minPx);
+    return `${size}px`;
+  }
 }

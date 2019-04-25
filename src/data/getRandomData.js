@@ -34,16 +34,17 @@ export function getRandomCategories() {
     'Usability','Engineering','Fun','Sports','Reading',
     'Education','Productivity','Games','Pets','Food',
   ];
+  labels.sort(Math.random);
   let n = rand(3, 25);
-  const min = 0;
+  const min = 1;
   const magnitude = rand(2, 5);
   const max = rand(Math.pow(10, magnitude - 1), Math.pow(10, magnitude));
   const data = [];
   while (n--) {
-    data.push({ label: pick(labels), value: rand(min, max) });
+    data.push({ label: labels[n], value: rand(min, max) });
   }
   data.sort((a, b) => b.value - a.value);
-  return { children: data };
+  return data;
 }
 
 export function getRandomTrend() {
