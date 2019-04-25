@@ -30,17 +30,19 @@ export function bubbles({
   data.forEach(d => {
     d.actualCount = d.value;
     if (d.value < max / 40) {
-      console.log(d.label, d.value, max);
       d.value = max / 40;
     }
   });
+  // get font sizers
+  const getFontSizeLabel = handleFontSizeBetween(12, 25);
+  const getFontSizeAmount = handleFontSizeBetween(10, 16);
   // setup and render
   const svg = createSvg();
   const root = setupHierarchy(svg);
   const bubbles = renderBubbles(svg, root);
   setupToolTips(bubbles);
   renderLabels(bubbles);
-  autosizeLabels();
+  truncateLongLabels();
 
   // functions only beyond this point
   function createSvg() {
@@ -146,13 +148,23 @@ export function bubbles({
       .style('opacity', 1)
       .style('transform', 'rotate(0)');
   }
-  function autosizeLabels() {
+  function truncateLongLabels() {
     const container = svg.node();
     const labels = container.querySelectorAll('.bubble-label');
     [...labels].forEach(label => {
-      const currSize = parseFloat(label.style.fontSize);
-      if (circleLabelRatio(label) < 1) {
-        trySmallerFont(label, currSize - 1);
+      const text = label.textContent;
+      const ratio = circleLabelRatio(label);
+      if (ratio < 0.94) {
+        // require that we have at least 6 characters
+        const keepChars = Math.floor(ratio * (text.length + 1)) - 1;
+        if (keepChars >= 6) {
+          label.textContent = text.slice(0, keepChars) + '...';
+          if (keepChars >= 8 && circleLabelRatio(label) < 0.94) {
+            label.textContent = text.slice(0, keepChars - 2) + '...';
+          }
+        } else {
+          label.textContent = '';
+        }
       }
     });
     const amounts = container.querySelectorAll('.bubble-amount');
@@ -170,44 +182,13 @@ export function bubbles({
     // 3% padding each side nets 0.94
     return (circleWidth * 0.94) / labelWidth;
   }
-  function trySmallerFont(label, px) {
-    label.style.fontSize = px + 'px';
-    const ratio = circleLabelRatio(label);
-    const text = label.textContent;
-    if (ratio > 1) {
-      return;
-    }
-    // we could cut off a bit and still be the same size
-    if (ratio * text.length > px * 0.5) {
-      const keepChars = Math.floor(ratio * text.length);
-      if (text.length - keepChars > 2) {
-        label.textContent = text.slice(0, keepChars) + '...';
-        return;
-      }
-    }
-    if (px <= 12) {
-      // smallest that we go!
-      label.textContent = '';
-      return;
-    }
-    trySmallerFont(label, px - 2);
-  }
-  function getFontSizeLabel(d) {
-    const minPx = 12;
-    const maxPx = 25;
-    const pxRange = maxPx - minPx;
-    const dataRange = max - min;
-    const ratio = pxRange / dataRange;
-    const size = Math.min(maxPx, Math.round(d.value * ratio) + minPx);
-    return `${size}px`;
-  }
-  function getFontSizeAmount(d) {
-    const minPx = 10;
-    const maxPx = 16;
-    const pxRange = maxPx - minPx;
-    const dataRange = max - min;
-    const ratio = pxRange / dataRange;
-    const size = Math.min(maxPx, Math.round(d.value * ratio) + minPx);
-    return `${size}px`;
+  function handleFontSizeBetween(minPx, maxPx) {
+    return function(d) {
+      const pxRange = maxPx - minPx;
+      const dataRange = max - min;
+      const ratio = pxRange / dataRange;
+      const size = Math.min(maxPx, Math.round(d.value * ratio) + minPx);
+      return `${size}px`;
+    };
   }
 }
