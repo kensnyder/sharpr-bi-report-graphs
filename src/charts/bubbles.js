@@ -5,6 +5,7 @@ import ToolTip from 'd3-tip';
 import { getColor } from './helpers/getColor.js';
 import { numberFormat } from './helpers/numberFormat.js';
 import { getFontCss } from './helpers/getFontCss.js';
+import './bubbles.css';
 
 const css = `
 ${getFontCss(['roboto-100', 'roboto-400'])}
@@ -35,12 +36,14 @@ export function bubbles({
   animationDuration = 500,
   animationOffset = 40
 }) {
-  // make sure bubbles don't get too small visually
-  // by giving them a minimum value
   const values = data.map(d => d.value);
   const min = Math.min.apply(null, values);
   const max = Math.max.apply(null, values);
-  data.forEach(d => {
+  data.forEach((d, i) => {
+    // specify the color of each bubble
+    d.color = getColor(i, data.length);
+    // make sure bubbles don't get too small visually
+    // by giving them a minimum value
     d.actualCount = d.value;
     if (d.value < max / 40) {
       d.value = max / 40;
@@ -87,7 +90,7 @@ export function bubbles({
       .append('circle')
       .attr('class', 'bubble')
       .attr('r', node => node.r)
-      .style('fill', (node, i) => getColor(i, data.length))
+      .style('fill', node => node.data.color)
       // handling click
       .on('click', (node, i) => onClick(node.data, i))
       // pre-animation styles

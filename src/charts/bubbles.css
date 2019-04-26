@@ -1,0 +1,25 @@
+.sh-chart-bubbles-tip-outer {
+  position: relative;
+}
+.sh-chart-bubbles-tip {
+  font-family: Roboto, sans-serif;
+  font-size: 18px;
+  font-weight: 100;
+  line-height: 1;
+  padding: 16px 20px;
+  /* background: rgba(0, 0, 0, 0.8); */
+  color: #fff;
+  border-radius: 6px;
+}
+.sh-chart-bubbles-stem {
+  width: 0;
+  height: 0;
+  position: absolute;
+  bottom: -45px;
+  left: 55%;
+  border-style: solid;
+  border-width: 48px 15px 0 0;
+  transform: rotate(17deg);
+  transform-origin: 100% 0;
+  z-index: 2;
+}

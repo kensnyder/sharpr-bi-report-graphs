@@ -1,7 +1,5 @@
-import roboto100 from '../fonts/roboto-100.css.txt';
-import roboto400 from '../fonts/roboto-400.css.txt';
-
-console.log('roboto100', roboto100);
+import { roboto100 } from '../fonts/roboto-100.css.js';
+import { roboto400 } from '../fonts/roboto-400.css.js';
 
 const knownFonts = {
   'roboto-100': {

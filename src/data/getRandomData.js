@@ -1,5 +1,5 @@
 export function getRandomFiles() {
-  let n = rand(3, 25);
+  const n = rand(3, 25);
   const min = 1;
   const magnitude = rand(2, 6);
   const max = rand(Math.pow(10, magnitude - 1), Math.pow(10, magnitude));
@@ -7,7 +7,7 @@ export function getRandomFiles() {
   const buzzwords = ['Annual', 'Consumer', 'Digital', 'Brand', 'Marketing', 'Research', 'Report', 'Competitive', 'Analysis', 'Quarterly', 'Monthly', 'Summary', 'Product'];
   const extensions = ['.pdf', '.pptx', '.docx', '.xlsx', '.mp4'];
   const data = [];
-  while (n--) {
+  for (let i = 0; i < n; i++) {
     data.push({
       label:
         pick(buzzwords) +

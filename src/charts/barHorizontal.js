@@ -44,6 +44,10 @@ export function barHorizontal({
   const highest = data[0].value;
   const highestWidth = (numberFormat(highest).length + 2) * fontSize * 0.5;
   const scaleAt = (width - highestWidth) / highest;
+  // assign colors
+  data.forEach((d, i) => {
+    d.color = getColor(i, data.length);
+  });
   // run it
   const svg = createSvg(withinElement);
   const groups = createGroups(svg);
@@ -97,7 +101,7 @@ export function barHorizontal({
       .attr('y', 24)
       .attr('width', d => d.value * scaleAt)
       .attr('height', 6)
-      .attr('fill', (d, i) => getColor(i, data.length))
+      .attr('fill', d => d.color)
       // pre-animation styles
       .style('opacity', 0)
       .style('transform', 'scaleX(0.25)')

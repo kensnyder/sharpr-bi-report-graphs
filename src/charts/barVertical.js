@@ -3,6 +3,7 @@ import 'd3-transition';
 import { scaleLinear } from 'd3-scale';
 import { numberFormat } from './helpers/numberFormat.js';
 import { getFontCss } from './helpers/getFontCss.js';
+import regression from 'd3-regression/src/linear.js';
 
 const css = `
 ${getFontCss(['roboto-400'])}
@@ -21,6 +22,11 @@ text {
 .bar-group:hover .chart-value {
   display: block;
 }
+.regression-line {
+  stroke: #666;
+  stroke-dasharray: 6 4;
+  stroke-width: 2;
+}
 `;
 
 export function barVertical({
@@ -36,7 +42,7 @@ export function barVertical({
   const fontSize = 13;
   const tickHeight = fontSize * 0.75;
   const barSpacing = 4;
-  const barNumberPadding = 6;
+  const barNumberPadding = barSpacing * 3;
   const xAxisAreaHeight = barSpacing + fontSize + tickHeight + 5;
   const yLabelFontHeight = 16;
   const numYAxisLabels = 5;
@@ -46,9 +52,9 @@ export function barVertical({
   const highestWidth =
     (String(numberFormat(highest)).length * fontSize) / 2 + 7;
   // const scaleAt = ((width - highestWidth) / highest).toFixed(2);
-  const barAreaLeft = highestWidth + barSpacing;
+  const barAreaLeft = highestWidth + barSpacing * 2;
   const barAreaTop = yLabelFontHeight + barNumberPadding;
-  const barAreaWidth = width - highestWidth - barSpacing * 2;
+  const barAreaWidth = width - highestWidth - barSpacing * 4;
   const barAreaHeight = height - xAxisAreaHeight - barAreaTop;
   const barAreaBottom = barAreaTop + barAreaHeight;
   const barWidth =
@@ -74,6 +80,7 @@ export function barVertical({
   renderXAxisLine(svg);
   renderNumbers(groups);
   renderYAxisLabels(svg);
+  renderRegressionLine(svg);
   // functions only below
   function createSvg(withinElement) {
     // create the svg and set its size
@@ -123,18 +130,8 @@ export function barVertical({
       .style('opacity', 1)
       .style('transform', 'scaleY(1)');
   }
-  function renderBarTicks(groups) {
-    // bar rectangles
-    groups
-      .append('rect')
-      .attr('class', 'chart-tick')
-      .attr('x', barWidth / 2 + 1)
-      .attr('y', barAreaHeight + barSpacing)
-      .attr('width', 1)
-      .attr('height', 8);
-  }
   function renderXAxisLabels(groups) {
-    // bar rectangles
+    // date labels
     groups
       .append('text')
       .attr('class', 'chart-axis-label chart-x-axis-label')
@@ -144,6 +141,7 @@ export function barVertical({
       .text(d => d.label);
   }
   function renderXAxisLine(svg) {
+    // line above labels
     svg
       .append('rect')
       .attr('class', 'chart-axis-line chart-x-axis-line')
@@ -152,7 +150,18 @@ export function barVertical({
       .attr('width', barAreaWidth + barSpacing * 2)
       .attr('height', 1);
   }
+  function renderBarTicks(groups) {
+    // tick marks for date labels
+    groups
+      .append('rect')
+      .attr('class', 'chart-tick')
+      .attr('x', barWidth / 2 + 1)
+      .attr('y', barAreaHeight + barSpacing)
+      .attr('width', 1)
+      .attr('height', 8);
+  }
   function renderYAxisLabels(svg) {
+    // numbers up left side
     const values = getYAxisValues();
     const bottom = barAreaBottom + fontSize / 2 + 1;
     svg
@@ -162,11 +171,12 @@ export function barVertical({
       .append('text')
       .attr('class', 'chart-axis-label chart-y-axis-label')
       .attr('text-anchor', 'end')
-      .attr('x', barAreaLeft - barSpacing * 2)
+      .attr('x', barAreaLeft - barSpacing * 3)
       .attr('y', d => bottom - d.value * barPxPerValue)
       .text(d => d.label);
   }
   function getYAxisValues() {
+    // get labels for numbers up left side
     const yScale = scaleLinear()
       .domain([0, highest])
       .nice();
@@ -199,5 +209,17 @@ export function barVertical({
       .delay((d, i) => animationOffset * i)
       // post-animation styles
       .style('opacity', 1);
+  }
+  function renderRegressionLine(svg) {
+    const regData = data.map((d, i) => [i, d.value]);
+    const reg = regression().domain([0, values.length]);
+    const result = reg(regData);
+    svg
+      .append('line')
+      .attr('class', 'regression-line')
+      .attr('x1', barAreaLeft + barSpacing + barWidth / 2)
+      .attr('y1', barAreaTop + (barAreaHeight - result[0][1] * barPxPerValue))
+      .attr('x2', barAreaLeft + barAreaWidth - barSpacing - barWidth / 2)
+      .attr('y2', barAreaTop + (barAreaHeight - result[1][1] * barPxPerValue));
   }
 }
