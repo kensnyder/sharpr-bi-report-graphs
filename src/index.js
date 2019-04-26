@@ -6,10 +6,14 @@ import {
   getRandomCategories,
   getRandomTrend
 } from './data/getRandomData.js';
+import { saveSvgAsPng } from 'save-svg-as-png';
 import './styles.css';
 
 document.querySelector('#app').innerHTML = `
 <h2>Choose a chart</h2>
+<div style="float:right">
+	<a href id="ToPng">Save Chart</a>
+</div>
 <div class="tabs">
 	<a href data-fn="runBarHorizontal">Horizontal Bar Chart</a> | 
 	<a href data-fn="runBarVertical">Vertical Bar Chart</a> | 
@@ -33,6 +37,11 @@ document.querySelector('.tabs').addEventListener('click', evt => {
     document.querySelector('#ChartArea').innerHTML = '';
     fn();
   }
+});
+document.querySelector('#ToPng').addEventListener('click', evt => {
+  evt.preventDefault();
+  const svg = document.querySelector('#ChartArea svg');
+  saveSvgAsPng(svg, `chart.png`);
 });
 
 // default chart
