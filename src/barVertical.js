@@ -2,9 +2,10 @@ import { select } from 'd3-selection';
 import 'd3-transition';
 import { scaleLinear } from 'd3-scale';
 import { numberFormat } from './helpers/numberFormat.js';
+import { getFontCss } from './helpers/getFontCss.js';
 
 const css = `
-@import url(https://fonts.googleapis.com/css?family=Roboto:400);
+${getFontCss(['roboto-400'])}
 text {
   font-family: Roboto, sans-serif;
   font-size: 13px;
@@ -14,10 +15,10 @@ text {
 .chart-tick {
   fill: #595959;
 }
-.zbar-group text {
+.bar-group .chart-value {
   display: none;
 }
-.zbar-group:hover text {
+.bar-group:hover .chart-value {
   display: block;
 }
 `;

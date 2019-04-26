@@ -4,13 +4,26 @@ import { pack, hierarchy } from 'd3-hierarchy';
 import ToolTip from 'd3-tip';
 import { getColor } from './helpers/getColor.js';
 import { numberFormat } from './helpers/numberFormat.js';
+import { getFontCss } from './helpers/getFontCss.js';
 
 const css = `
-@import url(https://fonts.googleapis.com/css?family=Roboto:100,400);
+${getFontCss(['roboto-100', 'roboto-400'])}
 text {
   font-family: Roboto, sans-serif;
 	fill: white;
 	pointer-events: none;
+}
+.bubble-label {
+  text-align: center;
+  font-family: Roboto, Arial;
+  font-weight: 400;
+  line-height: 1.2;
+  user-select: none;
+}
+.bubble-value {
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 300;
+  user-select: none;
 }
 `;
 

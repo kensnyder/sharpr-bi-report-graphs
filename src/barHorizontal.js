@@ -2,9 +2,10 @@ import { select } from 'd3-selection';
 import 'd3-transition';
 import { getColor } from './helpers/getColor.js';
 import { numberFormat } from './helpers/numberFormat.js';
+import { getFontCss } from './helpers/getFontCss.js';
 
 const css = `
-@import url(https://fonts.googleapis.com/css?family=Roboto:400);
+${getFontCss(['roboto-400'])}
 .chart-label {
   font-family: Roboto, sans-serif;
   font-size: 13px;
