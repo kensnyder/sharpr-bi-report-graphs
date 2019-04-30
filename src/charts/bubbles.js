@@ -28,7 +28,7 @@ text {
 }
 `;
 
-const hasSvgRotationBug = /.*Version\/.+ Safari\/.+/.test(navigator.userAgent);
+const hasSvgRotationBug = /.+ Version\/.+ Safari\/.+/.test(navigator.userAgent);
 
 export function bubbles({
   data,
