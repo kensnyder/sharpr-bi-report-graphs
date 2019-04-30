@@ -28,6 +28,8 @@ text {
 }
 `;
 
+const hasSvgRotationBug = /.*Version.*Safari.*/.test(navigator.userAgent);
+
 export function bubbles({
   data,
   width,
@@ -36,6 +38,9 @@ export function bubbles({
   animationDuration = 500,
   animationOffset = 40
 }) {
+  // options
+  const rotateDeg = hasSvgRotationBug ? 0 : -8;
+  // setup
   const values = data.map(d => d.value);
   const min = Math.min.apply(null, values);
   const max = Math.max.apply(null, values);
@@ -137,7 +142,7 @@ export function bubbles({
       .text(node => node.data.label)
       // pre-animation styles
       .style('opacity', 0)
-      .style('transform', 'rotate(-8deg)')
+      .style('transform', `rotate(${rotateDeg}deg)`)
       // animation setup
       .transition()
       .duration(animationDuration)
@@ -155,7 +160,7 @@ export function bubbles({
       .text(node => numberFormat(node.data.actualCount))
       // pre-animation styles
       .style('opacity', 0)
-      .style('transform', 'rotate(-8deg)')
+      .style('transform', `rotate(${rotateDeg}deg)`)
       // animation setup
       .transition()
       .duration(animationDuration)
