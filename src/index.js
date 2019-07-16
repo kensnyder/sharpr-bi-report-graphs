@@ -14,7 +14,6 @@ renderIndex('#app');
 
 // functions only beyond this point
 function runBarHorizontal() {
-  clearChartArea();
   updateSelectedTab(0);
   const data = getRandomFiles();
   const links = [
@@ -36,7 +35,6 @@ function runBarHorizontal() {
 }
 
 function runBubbles() {
-  clearChartArea();
   updateSelectedTab(1);
   const data = getRandomCategories();
   const onClick = item => runBarVertical(item.color);
@@ -51,7 +49,6 @@ function runBubbles() {
 }
 
 function runBarVertical(color = '#EB2470') {
-  clearChartArea();
   updateSelectedTab(2);
   const data = getRandomTrend();
   barVertical({
@@ -64,10 +61,6 @@ function runBarVertical(color = '#EB2470') {
     animationDuration: 500,
     animationOffset: 40
   });
-}
-
-function clearChartArea() {
-  clearChart('#ChartArea');
 }
 
 function renderIndex(withinElement) {

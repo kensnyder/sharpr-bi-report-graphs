@@ -3,6 +3,7 @@ import 'd3-transition';
 import { getColor } from './helpers/getColor.js';
 import { numberFormat } from './helpers/numberFormat.js';
 import { getFontCss } from './helpers/getFontCss.js';
+import { clearChart } from './helpers/clearChart.js';
 
 const css = `
 ${getFontCss(['roboto-400'])}
@@ -51,6 +52,8 @@ export function barHorizontal({
   data.forEach((d, i) => {
     d.color = getColor(i, data.length);
   });
+  // clear any existing chart
+  clearChart(withinElement);
   // run it
   const svg = createSvg(withinElement);
   const groups = createGroups(svg);

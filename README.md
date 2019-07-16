@@ -6,7 +6,9 @@ Functions to render graphs with d3
 
 Example usage:
 
-````js
+```js
+import { barHorizontal } from 'sharpr-bi-report-graphs/src/charts/barHorizontal.js';
+
 barHorizontal({
   width,                   // The width of the chart
   data,                    // An array of objects with props value, label
@@ -19,15 +21,17 @@ barHorizontal({
   maxHeight = 550,         // Max graph height (overridden by minSpacing)
   animationDuration = 500, // MS over which to animate bar growth
   animationOffset = 40     // MS delay between each bar animation
-});```
-
+});
+```
 
 ## barVertical()
 
 Example usage:
 
 ```js
-export function barVertical({
+import { barVertical } from 'sharpr-bi-report-graphs/src/charts/barVertical.js';
+
+barVertical({
   data,                    // An array of objects with props value, label
   color,                   // Color of each bar
   height,                  // Graph height
@@ -37,13 +41,15 @@ export function barVertical({
   animationDuration = 500, // MS over which to animate bar growth
   animationOffset = 40     // MS delay between each bar animation
 });
-````
+```
 
 ## bubbles()
 
 Example usage:
 
 ```js
+import { bubbles } from 'sharpr-bi-report-graphs/src/charts/bubbles.js';
+
 bubbles({
   data,                    // An array of objects with props value, label
   width,                   // The width and height of the chart

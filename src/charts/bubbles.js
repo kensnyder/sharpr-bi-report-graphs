@@ -5,6 +5,7 @@ import ToolTip from 'd3-tip';
 import { getColor } from './helpers/getColor.js';
 import { numberFormat } from './helpers/numberFormat.js';
 import { getFontCss } from './helpers/getFontCss.js';
+import { clearChart } from './helpers/clearChart.js';
 import './bubbles.css';
 
 const css = `
@@ -57,6 +58,8 @@ export function bubbles({
   // get font sizers
   const getFontSizeLabel = handleFontSizeBetween(12, 25);
   const getFontSizeAmount = handleFontSizeBetween(10, 16);
+  // clear any existing chart
+  clearChart(withinElement);
   // setup and render
   const svg = createSvg();
   const root = setupHierarchy(svg);

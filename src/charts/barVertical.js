@@ -3,6 +3,7 @@ import 'd3-transition';
 import { scaleLinear } from 'd3-scale';
 import { numberFormat } from './helpers/numberFormat.js';
 import { getFontCss } from './helpers/getFontCss.js';
+import { clearChart } from './helpers/clearChart.js';
 import regression from 'd3-regression/src/linear.js';
 
 const css = `
@@ -60,6 +61,8 @@ export function barVertical({
   const barWidth =
     (barAreaWidth - (barSpacing * data.length - 1)) / data.length;
   const barPxPerValue = barAreaHeight / highest;
+  // clear any existing chart
+  clearChart(withinElement);
   // run it
   const svg = createSvg(withinElement);
   // debug: highlight bar area
