@@ -6,6 +6,7 @@ import {
   getRandomCategories,
   getRandomTrend
 } from './data/getRandomData.js';
+import { clearChart } from './charts/helpers/clearChart.js';
 import { saveSvgAsPng } from 'save-svg-as-png';
 import './styles.css';
 
@@ -66,12 +67,7 @@ function runBarVertical(color = '#EB2470') {
 }
 
 function clearChartArea() {
-  // remove svg
-  document.querySelector('#ChartArea').innerHTML = '';
-  // remove any tooltips
-  [...document.querySelectorAll('.sh-chart-bubbles-tip-outer')].forEach(tip => {
-    tip.parentNode.removeChild(tip);
-  });
+  clearChart('#ChartArea');
 }
 
 function renderIndex(withinElement) {
