@@ -32,14 +32,17 @@ export function barHorizontal({
   data,
   links,
   onClick,
-  linkColor = '#EE5834',
   withinElement,
+  linkColor = '#EE5834',
+  minSpacing = 45,
+  maxSpacing = 55,
+  maxHeight = 550,
   animationDuration = 500,
   animationOffset = 40
 }) {
   // setup variables
   const fontSize = 13;
-  const spacing = between(45, 55)(550 / data.length);
+  const spacing = between(minSpacing, maxSpacing)(maxHeight / data.length);
   const height = data.length * spacing;
   const highest = data[0].value;
   const highestWidth = (numberFormat(highest).length + 2) * fontSize * 0.5;
