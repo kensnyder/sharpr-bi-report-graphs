@@ -1,6 +1,6 @@
 {
   "name": "sharpr-bi-report-graphs",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "",
   "main": "index.html",
   "scripts": {
@@ -8,10 +8,12 @@
     "build": "parcel build index.html"
   },
   "dependencies": {
+    "d3-area-label": "1.5.0",
     "d3-hierarchy": "1.1.8",
     "d3-regression": "1.2.4",
     "d3-scale": "3.0.0",
     "d3-selection": "1.4.0",
+    "d3-shape": "1.3.5",
     "d3-tip": "0.9.1",
     "d3-transition": "1.2.0",
     "d3plus-text": "0.9.45",

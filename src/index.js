@@ -1,12 +1,13 @@
 import { barHorizontal } from './charts/barHorizontal.js';
 import { bubbles } from './charts/bubbles.js';
 import { barVertical } from './charts/barVertical.js';
+import { stream } from './charts/stream.js';
 import {
   getRandomFiles,
   getRandomCategories,
-  getRandomTrend
+  getRandomTrend,
+  getRandomSeries
 } from './data/getRandomData.js';
-import { clearChart } from './charts/helpers/clearChart.js';
 import { saveSvgAsPng } from 'save-svg-as-png';
 import './styles.css';
 
@@ -63,6 +64,19 @@ function runBarVertical(color = '#EB2470') {
   });
 }
 
+function runStream() {
+  updateSelectedTab(3);
+  const series = getRandomSeries();
+  stream({
+    width: 1100,
+    height: 450,
+    series,
+    withinElement: '#ChartArea',
+    animationDuration: 500,
+    animationOffset: 40
+  });
+}
+
 function renderIndex(withinElement) {
   document.querySelector(withinElement).innerHTML = `
 <h2>Click to show a chart with random data:</h2>
@@ -72,7 +86,8 @@ function renderIndex(withinElement) {
 <div class="tabs">
 	<a href data-fn="runBarHorizontal">Horizontal Bar Chart</a> |
 	<a href data-fn="runBubbles">Bubble Chart</a> |
-	<a href data-fn="runBarVertical">Trend Chart</a>
+	<a href data-fn="runBarVertical">Trend Chart</a> |
+	<a href data-fn="runStream">Stream Chart</a>
 </div>
 <div id="ChartArea"></div>
 `;
@@ -81,7 +96,8 @@ function renderIndex(withinElement) {
     const fns = {
       runBarHorizontal,
       runBarVertical,
-      runBubbles
+      runBubbles,
+      runStream
     };
     if (evt.target.tagName.toUpperCase() === 'A') {
       evt.preventDefault();
