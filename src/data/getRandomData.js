@@ -86,7 +86,7 @@ export function getRandomSeries() {
   const magnitude = rand(2, 6);
   const max = rand(Math.pow(10, magnitude - 1), Math.pow(10, magnitude));
   let s = rand(5, 15);
-  const n = rand(3, 35);
+  const n = rand(8, 35);
   const startDate = Date.parse('Mar 20, 2019');
   const series = {
     dates: [],

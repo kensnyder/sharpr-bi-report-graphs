@@ -6,7 +6,7 @@ import { getColor } from './helpers/getColor.js';
 import { numberFormat } from './helpers/numberFormat.js';
 import { getFontCss } from './helpers/getFontCss.js';
 import { clearChart } from './helpers/clearChart.js';
-import './bubbles.css';
+import './tooltip.css';
 
 const css = `
 ${getFontCss(['roboto-100', 'roboto-400'])}
@@ -117,15 +117,15 @@ export function bubbles({
     // create new tooltip manager
     const tip = new ToolTip();
     tip
-      .attr('class', 'sh-chart-bubbles-tip-outer')
+      .attr('class', 'sh-chart-tip-outer')
       .offset([-38, 0])
       .html((node, i) => {
         const color = getColor(i, values.length);
         return `
-					<div class="sh-chart-bubbles-tip" style="background-color: ${color}">
+					<div class="sh-chart-tip" style="background-color: ${color}">
 						${node.data.label} (${numberFormat(node.data.actualCount)})
 					</div>
-					<div class="sh-chart-bubbles-stem" style="border-color: ${color} transparent transparent transparent"></div>
+					<div class="sh-chart-stem" style="border-color: ${color} transparent transparent transparent"></div>
 				`;
       });
     // apply tooltips to bubbles

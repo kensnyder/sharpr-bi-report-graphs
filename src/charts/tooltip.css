@@ -1,8 +1,8 @@
-.sh-chart-bubbles-tip-outer {
+.sh-chart-tip-outer {
   position: relative;
   filter: drop-shadow(5px 5px 2px rgba(0, 0, 0, 0.25));
 }
-.sh-chart-bubbles-tip {
+.sh-chart-tip {
   font-family: Roboto, sans-serif;
   font-size: 18px;
   font-weight: 100;
@@ -12,7 +12,7 @@
   color: #fff;
   border-radius: 6px;
 }
-.sh-chart-bubbles-stem {
+.sh-chart-stem {
   width: 0;
   height: 0;
   position: absolute;
@@ -24,6 +24,6 @@
   transform-origin: 100% 0;
   z-index: 2;
 }
-.sh-bart-bubbles-tip-date {
-  color: #595959;
+.sh-chart-tip-date {
+  opacity: 0.66;
 }
