@@ -188,8 +188,9 @@ export function stream({
     .html(({ label, date, amount }) => {
       const color = getColor(mouseAt.index, data.keys.length + 1);
       return `
-        <div class="sh-chart-bubbles-tip" style="background-color: white; color: ${color}">
-         ${date} - ${label}: ${numberFormat(amount)}
+        <div class="sh-chart-bubbles-tip" style="background-color: white">
+         <span class="sh-bart-bubbles-tip-date">${date}:</span>
+         <span style="color: ${color}">${label} (${numberFormat(amount)})</span>
         </div>
         <div class="sh-chart-bubbles-stem" style="border-color: white transparent transparent transparent"></div>
       `;

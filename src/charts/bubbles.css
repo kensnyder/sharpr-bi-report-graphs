@@ -1,5 +1,6 @@
 .sh-chart-bubbles-tip-outer {
   position: relative;
+  filter: drop-shadow(5px 5px 2px rgba(0, 0, 0, 0.25));
 }
 .sh-chart-bubbles-tip {
   font-family: Roboto, sans-serif;
@@ -22,4 +23,7 @@
   transform: rotate(17deg);
   transform-origin: 100% 0;
   z-index: 2;
+}
+.sh-bart-bubbles-tip-date {
+  color: #595959;
 }
