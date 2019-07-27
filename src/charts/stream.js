@@ -32,8 +32,8 @@ export function stream({
   height,
   series,
   withinElement,
-  animationDuration,
-  animationOffset
+  animationDuration = 500,
+  animationOffset = 40
 }) {
   clearChart(withinElement);
 
@@ -98,7 +98,6 @@ export function stream({
     over: function(d, i) {
       mouseAt.index = i;
       mouseAt.element = this;
-      console.log({ over: this });
     },
     out: function() {
       mouseAt.index = null;
@@ -147,7 +146,7 @@ export function stream({
 
   // date labels
   const maybeDateLabel = (d, i) => {
-    if (series.dates.length > 15 && i % 2) {
+    if (series.dates.length > width / dataLabelWidth && i % 2) {
       return '';
     }
     return d;
@@ -210,7 +209,7 @@ export function stream({
       return;
     }
     const label = item.label;
-    const idx = Math.round(x / xInterval);
+    const idx = Math.round((x - dataLabelWidth / 2) / xInterval);
     const date = series.dates[idx];
     const amount = series.items[mouseAt.index].values[idx];
     tip.offset([0, x - width / 2]);

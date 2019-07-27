@@ -53,9 +53,50 @@ import { bubbles } from 'sharpr-bi-report-graphs/src/charts/bubbles.js';
 bubbles({
   data,                    // An array of objects with props value, label
   width,                   // The width and height of the chart
-  onClick,                 // A function to run when you click on a bar (arg1=dataPoint)
+  onClick,                 // A function to run when you click on a bubble (arg1=dataPoint)
   withinElement,           // An Element or selector to an element
-  animationDuration = 500, // MS over which to animate bar growth
-  animationOffset = 40     // MS delay between each bar animation
+  animationDuration = 500, // MS over which to animate bubble growth
+  animationOffset = 40     // MS delay between each bubble animation
 });
+```
+
+## stream()
+
+Example usage:
+
+```js
+import { stream } from 'sharpr-bi-report-graphs/src/charts/stream.js';
+
+stream({
+  series,                  // Data in the format outlined below
+  width,                   // The width of the chart
+  height,                  // The height of the chart
+  withinElement,           // An Element or selector to an element
+  animationDuration = 500, // MS over which to animate area growth
+  animationOffset = 40     // MS delay between each area animation
+});
+```
+
+### `series` format
+
+Example data:
+
+```js
+const series = {
+  dates: ['Mar 1', 'Mar 2', 'Mar 3', 'Mar 3'],
+  items: [
+    {
+      label: 'Series 1',
+      values: [1, 8, 3, 10]
+    },
+    {
+      label: 'Series 2',
+      values: [11, 6, 2, 0]
+    },
+    {
+      label: 'Series 3',
+      values: [7, 12, 18, 22]
+    }
+  ]
+};
 ```
