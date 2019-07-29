@@ -1,3 +1,7 @@
+/**
+ * Clear out the chart area
+ * @param {Element|String} element A DOM Element or selector to a DOM Element
+ */
 export function clearChart(element) {
   // remove svg
   if (typeof element === 'string') {

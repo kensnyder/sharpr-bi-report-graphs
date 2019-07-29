@@ -2,6 +2,8 @@
 
 Functions to render graphs with d3
 
+[Demo](https://9oi7z.csb.app/) | [Edit/Fork on CodeSandbox](https://codesandbox.io/s/sharpr-bi-report-graphs-9oi7z)
+
 ## barHorizontal()
 
 Example usage:
