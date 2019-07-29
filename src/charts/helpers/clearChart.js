@@ -5,7 +5,7 @@ export function clearChart(element) {
   }
   element.innerHTML = '';
   // remove any tooltips
-  [...document.querySelectorAll('.sh-chart-bubbles-tip-outer')].forEach(tip => {
+  [...document.querySelectorAll('.sh-chart-tip-outer')].forEach(tip => {
     tip.parentNode.removeChild(tip);
   });
 }
