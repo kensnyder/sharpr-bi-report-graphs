@@ -2,7 +2,7 @@
 
 Functions to render graphs with d3
 
-[Demo](https://9oi7z.csb.app/) | [Edit/Fork](https://codesandbox.io/s/sharpr-bi-report-graphs-9oi7z)
+[Demo](https://9oi7z.csb.app/) | [Edit/Fork on CodeSandbox](https://codesandbox.io/s/sharpr-bi-report-graphs-9oi7z)
 
 ## barHorizontal()
 
@@ -63,6 +63,9 @@ bubbles({
 ```
 
 ## stream()
+
+[What is a stream chart?](https://datavizcatalogue.com/methods/stream_graph.html) |
+[Scientific paper](http://leebyron.com/streamgraph/)
 
 Example usage:
 
