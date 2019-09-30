@@ -8,7 +8,7 @@
   "scripts": {
     "start": "npx parcel index.html --open",
     "build": "npx parcel build index.html",
-    "dist": "npx parcel build entry.js --no-source-maps --target browser --out-file dist/index.js && npx babel dist/index.js --out-file dist/index.js"
+    "dist": "npx rollup -c"
   },
   "dependencies": {
     "d3-area-label": "1.5.0",
@@ -24,8 +24,10 @@
   },
   "devDependencies": {
     "@babel/core": "7.6.2",
+    "@babel/preset-env": "^7.6.2",
     "parcel-bundler": "^1.6.1",
     "rollup": "^1.22.0",
+    "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-css-porter": "^1.0.2",
     "rollup-plugin-node-resolve": "^5.2.0",
