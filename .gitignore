@@ -1,0 +1,10 @@
+# macOS
+.DS_Store
+# intellij
+.idea
+# node
+node_modules
+# parcel
+.cache
+dist/src.*.js
+dist/src.*.css
