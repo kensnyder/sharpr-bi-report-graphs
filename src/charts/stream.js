@@ -2,7 +2,7 @@ import { select } from 'd3-selection';
 import 'd3-transition';
 import { stack, stackOffsetWiggle, curveBasis, area } from 'd3-shape';
 import { scaleLinear } from 'd3-scale';
-import { areaLabel } from 'd3-area-label';
+import areaLabel from 'd3-area-label/src/area-label.js';
 import ToolTip from 'd3-tip';
 import { numberFormat } from './helpers/numberFormat.js';
 import { getFontCss } from './helpers/getFontCss.js';
