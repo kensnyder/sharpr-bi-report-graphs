@@ -8,22 +8,22 @@ import regression from 'd3-regression/src/linear.js';
 
 const css = `
 ${getFontCss(['roboto-400'])}
-text {
+.sh-chart-bar-vertical text {
   font-family: Roboto, sans-serif;
   font-size: 13px;
   fill: #555;
 }
-.chart-axis-line,
-.chart-tick {
+.sh-chart-bar-vertical .chart-axis-line,
+.sh-chart-bar-vertical .chart-tick {
   fill: #595959;
 }
-.bar-group .chart-value {
+.sh-chart-bar-vertical .bar-group .chart-value {
   display: none;
 }
-.bar-group:hover .chart-value {
+.sh-chart-bar-vertical .bar-group:hover .chart-value {
   display: block;
 }
-.regression-line {
+.sh-chart-bar-vertical .regression-line {
   stroke: #666;
   stroke-dasharray: 6 4;
   stroke-width: 2;

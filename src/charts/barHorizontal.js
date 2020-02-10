@@ -7,20 +7,20 @@ import { clearChart } from './helpers/clearChart.js';
 
 const css = `
 ${getFontCss(['roboto-400'])}
-.chart-label {
+.sh-chart-bar-horizontal .chart-label {
   font-family: Roboto, sans-serif;
   font-size: 13px;
   fill: #555;
 }
-.chart-value {
+.sh-chart-bar-horizontal .chart-value {
   font-family: Roboto, sans-serif;
   font-size: 13px;
 }
-.links {
+.sh-chart-bar-horizontal .links {
   display: none;
   color: #999;
 }
-.group:hover .links {
+.sh-chart-bar-horizontal .group:hover .links {
   display: block;
 }
 `;

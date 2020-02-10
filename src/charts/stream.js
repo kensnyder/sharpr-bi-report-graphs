@@ -12,17 +12,17 @@ import './tooltip.css';
 
 const css = `
 ${getFontCss(['roboto-100', 'roboto-400'])}
-text {
+.sh-chart-stream text {
   font-family: Roboto, sans-serif;
   font-size: 13px;
   fill: #555;
 }
-.area-label {
+.sh-chart-stream .area-label {
   fill: rgba(255,255,255,0.75);
   pointer-events: none;
 }
-.chart-x-axis-line,
-.chart-tick {
+.sh-chart-stream .chart-x-axis-line,
+.sh-chart-stream .chart-tick {
   fill: #595959;
 }
 `;

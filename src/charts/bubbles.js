@@ -10,19 +10,19 @@ import './tooltip.css';
 
 const css = `
 ${getFontCss(['roboto-100', 'roboto-400'])}
-text {
+.sh-chart-bubbles text {
   font-family: Roboto, sans-serif;
 	fill: white;
 	pointer-events: none;
 }
-.bubble-label {
+.sh-chart-bubbles .bubble-label {
   text-align: center;
   font-family: Roboto, Arial;
   font-weight: 400;
   line-height: 1.2;
   user-select: none;
 }
-.bubble-value {
+.sh-chart-bubbles .bubble-value {
   color: rgba(255, 255, 255, 0.8);
   font-weight: 300;
   user-select: none;
