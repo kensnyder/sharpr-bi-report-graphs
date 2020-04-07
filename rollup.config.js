@@ -18,7 +18,7 @@ export default {
         [
           '@babel/env',
           {
-            modules: 'false',
+            modules: false,
             targets: {
               browsers: 'last 2 versions, not < 0.25%, not ie 10'
             }

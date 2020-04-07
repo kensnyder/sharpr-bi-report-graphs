@@ -31,7 +31,7 @@ ${getFontCss(['roboto-400'])}
 export function barHorizontal({
   width,
   data,
-  links,
+  links = [],
   onClick,
   withinElement,
   linkColor = '#EE5834',
