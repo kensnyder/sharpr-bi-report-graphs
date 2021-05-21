@@ -1,4 +1,4 @@
-export function getRandomFiles() {
+function getRandomFiles() {
   const n = rand(3, 25);
   const min = 1;
   const magnitude = rand(2, 6);
@@ -23,7 +23,7 @@ export function getRandomFiles() {
   return data;
 }
 
-export function getRandomCategories() {
+function getRandomCategories() {
   /* prettier-ignore */
   const labels = [
     'Adventure','Brand','Marketing','Consumer','Home & Garden',
@@ -45,7 +45,7 @@ export function getRandomCategories() {
   return data;
 }
 
-export function getRandomTrend() {
+function getRandomTrend() {
   let n = rand(3, 35);
   const min = 0;
   const magnitude = rand(2, 6);
@@ -72,7 +72,7 @@ export function getRandomTrend() {
   return data;
 }
 
-export function getRandomSeries() {
+function getRandomSeries() {
   /* prettier-ignore */
   const labels = [
     'Adventure','Brand','Marketing','Consumer','Home & Garden',
@@ -107,15 +107,15 @@ export function getRandomSeries() {
   return series;
 }
 
-export function rand(min, max) {
+function rand(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-export function pick(array) {
+function pick(array) {
   return array[rand(0, array.length - 1)];
 }
 
-export function formatDate(date) {
+function formatDate(date) {
   const months = 'Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec'.split(',');
   const month = months[date.getMonth()];
   const day = date.getDate();

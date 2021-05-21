@@ -1,3 +1,4 @@
+const css = `
 .sh-chart-tip-outer {
   position: relative;
   filter: drop-shadow(5px 5px 2px rgba(0, 0, 0, 0.25));
@@ -27,3 +28,7 @@
 .sh-chart-tip-date {
   opacity: 0.66;
 }
+`;
+
+const style = document.createElement('style');
+style.textContent = css;

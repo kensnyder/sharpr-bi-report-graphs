@@ -6,7 +6,7 @@ import { getColor } from './helpers/getColor.js';
 import { numberFormat } from './helpers/numberFormat.js';
 import { getFontCss } from './helpers/getFontCss.js';
 import { clearChart } from './helpers/clearChart.js';
-import './tooltip.css';
+import './tooltipStyles.js';
 
 const css = `
 ${getFontCss(['roboto-100', 'roboto-400'])}
@@ -42,7 +42,7 @@ export function bubbles({
   // options
   const rotateDeg = hasSvgRotationBug ? 0 : -8;
   // setup
-  const values = data.map(d => d.value);
+  const values = data.map((d) => d.value);
   const min = Math.min.apply(null, values);
   const max = Math.max.apply(null, values);
   data.forEach((d, i) => {
@@ -79,10 +79,8 @@ export function bubbles({
     return svg;
   }
   function setupHierarchy(svg) {
-    const bubble = pack()
-      .size([width, width])
-      .padding(0);
-    const root = hierarchy({ children: data }).sum(d => d.value);
+    const bubble = pack().size([width, width]).padding(0);
+    const root = hierarchy({ children: data }).sum((d) => d.value);
     bubble(root);
     return root;
   }
@@ -93,12 +91,12 @@ export function bubbles({
       .enter()
       .append('g')
       .attr('class', 'bubble-container')
-      .attr('transform', d => `translate(${d.x} ${d.y})`);
+      .attr('transform', (d) => `translate(${d.x} ${d.y})`);
     bubbles
       .append('circle')
       .attr('class', 'bubble')
-      .attr('r', node => node.r)
-      .style('fill', node => node.data.color)
+      .attr('r', (node) => node.r)
+      .style('fill', (node) => node.data.color)
       // handling click
       .on('click', (node, i) => onClick(node.data, i))
       // pre-animation styles
@@ -129,10 +127,7 @@ export function bubbles({
 				`;
       });
     // apply tooltips to bubbles
-    bubbles
-      .on('mouseover', tip.show)
-      .on('mouseout', tip.hide)
-      .call(tip);
+    bubbles.on('mouseover', tip.show).on('mouseout', tip.hide).call(tip);
     return tip;
   }
   function renderLabels(bubbles) {
@@ -142,7 +137,7 @@ export function bubbles({
       .attr('dy', '0')
       .style('text-anchor', 'middle')
       .style('font-size', getFontSizeLabel)
-      .text(node => node.data.label)
+      .text((node) => node.data.label)
       // pre-animation styles
       .style('opacity', 0)
       .style('transform', `rotate(${rotateDeg}deg)`)
@@ -160,7 +155,7 @@ export function bubbles({
       .style('text-anchor', 'middle')
       .style('font-weight', '100')
       .style('font-size', getFontSizeAmount)
-      .text(node => numberFormat(node.data.actualCount))
+      .text((node) => numberFormat(node.data.actualCount))
       // pre-animation styles
       .style('opacity', 0)
       .style('transform', `rotate(${rotateDeg}deg)`)
@@ -175,7 +170,7 @@ export function bubbles({
   function truncateLongLabels() {
     const container = svg.node();
     const labels = container.querySelectorAll('.bubble-label');
-    [...labels].forEach(label => {
+    [...labels].forEach((label) => {
       const text = label.textContent;
       const ratio = circleLabelRatio(label);
       if (ratio < 0.94) {
@@ -192,7 +187,7 @@ export function bubbles({
       }
     });
     const amounts = container.querySelectorAll('.bubble-amount');
-    [...amounts].forEach(amount => {
+    [...amounts].forEach((amount) => {
       const label = amount.previousSibling;
       if (label.textContent === '') {
         amount.textContent = '';
@@ -207,7 +202,7 @@ export function bubbles({
     return (circleWidth * 0.94) / labelWidth;
   }
   function handleFontSizeBetween(minPx, maxPx) {
-    return function(d) {
+    return function (d) {
       const pxRange = maxPx - minPx;
       const dataRange = max - min;
       const ratio = pxRange / dataRange;

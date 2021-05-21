@@ -2,8 +2,7 @@
 
 Functions to render graphs with d3
 
-[Demo](https://94y78o4vjp.csb.app/) |
-[Edit/Fork on CodeSandbox](https://codesandbox.io/s/github/kensnyder/sharpr-bi-report-graphs)
+[Demo](demo/index.html)
 
 ## barHorizontal()
 
@@ -23,7 +22,7 @@ barHorizontal({
   maxSpacing = 55,         // Maximum vertical spacing between bars
   maxHeight = 550,         // Max graph height (overridden by minSpacing)
   animationDuration = 500, // MS over which to animate bar growth
-  animationOffset = 40     // MS delay between each bar animation
+  animationOffset = 40,    // MS delay between each bar animation
 });
 ```
 
@@ -42,7 +41,7 @@ barVertical({
   onClick,                 // A function to run when you click on a bar (arg1=dataPoint)
   withinElement,           // An Element or selector to an element
   animationDuration = 500, // MS over which to animate bar growth
-  animationOffset = 40     // MS delay between each bar animation
+  animationOffset = 40,    // MS delay between each bar animation
 });
 ```
 
@@ -59,7 +58,7 @@ bubbles({
   onClick,                 // A function to run when you click on a bubble (arg1=dataPoint)
   withinElement,           // An Element or selector to an element
   animationDuration = 500, // MS over which to animate bubble growth
-  animationOffset = 40     // MS delay between each bubble animation
+  animationOffset = 40,    // MS delay between each bubble animation
 });
 ```
 
@@ -79,7 +78,7 @@ stream({
   height,                  // The height of the chart
   withinElement,           // An Element or selector to an element
   animationDuration = 500, // MS over which to animate area growth
-  animationOffset = 40     // MS delay between each area animation
+  animationOffset = 40,    // MS delay between each area animation
 });
 ```
 

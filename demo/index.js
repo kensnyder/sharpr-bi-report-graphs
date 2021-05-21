@@ -1,15 +1,5 @@
-import { barHorizontal } from './charts/barHorizontal.js';
-import { bubbles } from './charts/bubbles.js';
-import { barVertical } from './charts/barVertical.js';
-import { stream } from './charts/stream.js';
-import {
-  getRandomFiles,
-  getRandomCategories,
-  getRandomTrend,
-  getRandomSeries
-} from './data/getRandomData.js';
-import { saveSvgAsPng } from 'save-svg-as-png';
-import './styles.css';
+const { barHorizontal, barVertical, bubbles, stream, clearChart } =
+  window.shBiReportGraphs;
 
 renderIndex('#app');
 
@@ -18,11 +8,11 @@ function runBarHorizontal() {
   updateSelectedTab(0);
   const data = getRandomFiles();
   const links = [
-    { text: 'preview', onClick: item => alert('Preview ' + item.label) },
-    { text: 'download', onClick: item => alert('Download ' + item.label) },
-    { text: 'view trend', onClick: item => runBarVertical(item.color) }
+    { text: 'preview', onClick: (item) => alert('Preview ' + item.label) },
+    { text: 'download', onClick: (item) => alert('Download ' + item.label) },
+    { text: 'view trend', onClick: (item) => runBarVertical(item.color) }
   ];
-  const onClick = item => runBarVertical(item.color);
+  const onClick = (item) => runBarVertical(item.color);
   barHorizontal({
     width: 1100,
     data,
@@ -38,7 +28,7 @@ function runBarHorizontal() {
 function runBubbles() {
   updateSelectedTab(1);
   const data = getRandomCategories();
-  const onClick = item => runBarVertical(item.color);
+  const onClick = (item) => runBarVertical(item.color);
   bubbles({
     width: 700,
     data,
@@ -92,7 +82,7 @@ function renderIndex(withinElement) {
 <div id="ChartArea"></div>
 `;
 
-  document.querySelector('.tabs').addEventListener('click', evt => {
+  document.querySelector('.tabs').addEventListener('click', (evt) => {
     const fns = {
       runBarHorizontal,
       runBarVertical,
@@ -105,7 +95,7 @@ function renderIndex(withinElement) {
       fn();
     }
   });
-  document.querySelector('#ToPng').addEventListener('click', evt => {
+  document.querySelector('#ToPng').addEventListener('click', (evt) => {
     evt.preventDefault();
     const svg = document.querySelector('#ChartArea svg');
     saveSvgAsPng(svg, `chart.png`);
@@ -117,6 +107,6 @@ function renderIndex(withinElement) {
 
 function updateSelectedTab(n) {
   const links = [...document.querySelectorAll('.tabs a')];
-  links.forEach(link => link.classList.remove('selected'));
+  links.forEach((link) => link.classList.remove('selected'));
   links[n].classList.add('selected');
 }

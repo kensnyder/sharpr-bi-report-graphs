@@ -8,7 +8,7 @@ import { numberFormat } from './helpers/numberFormat.js';
 import { getFontCss } from './helpers/getFontCss.js';
 import { clearChart } from './helpers/clearChart.js';
 import { getColor } from './helpers/getColor.js';
-import './tooltip.css';
+import './tooltipStyles.js';
 
 const css = `
 ${getFontCss(['roboto-100', 'roboto-400'])}
@@ -56,7 +56,7 @@ export function stream({
     const data = [];
     data.keys = [];
     data.colors = [];
-    series.items.forEach(item => {
+    series.items.forEach((item) => {
       item.values.forEach((value, i) => {
         if (!data[i]) {
           data[i] = { time: i };
@@ -82,11 +82,11 @@ export function stream({
     const mouseAt = {
       index: null,
       element: null,
-      enter: function(d, i) {
+      enter: function (d, i) {
         mouseAt.index = i;
         mouseAt.element = this;
       },
-      leave: function() {
+      leave: function () {
         mouseAt.index = null;
         mouseAt.element = null;
       }
@@ -96,14 +96,14 @@ export function stream({
 
   function renderData() {
     const streamStack = stack().offset(stackOffsetWiggle);
-    const xValue = d => d.time;
+    const xValue = (d) => d.time;
     const xScale = scaleLinear();
     const yScale = scaleLinear();
 
     const streamArea = area()
-      .x(d => xScale(xValue(d.data)))
-      .y0(d => yScale(d[0]))
-      .y1(d => yScale(d[1]))
+      .x((d) => xScale(xValue(d.data)))
+      .y0((d) => yScale(d[0]))
+      .y1((d) => yScale(d[1]))
       .curve(curveBasis);
 
     streamStack.keys(data.keys);
@@ -122,8 +122,14 @@ export function stream({
 
     yScale
       .domain([
-        Math.min.apply(Math, stacked[0].map(d => d[0])),
-        Math.max.apply(Math, stacked[stacked.length - 1].map(d => d[1]))
+        Math.min.apply(
+          Math,
+          stacked[0].map((d) => d[0])
+        ),
+        Math.max.apply(
+          Math,
+          stacked[stacked.length - 1].map((d) => d[1])
+        )
       ])
       .range([height - xAxisHeight, 0]);
 
@@ -158,7 +164,7 @@ export function stream({
       .append('text')
       .attr('class', 'area-label')
       .merge(labels)
-      .text(d => d.key)
+      .text((d) => d.key)
       .attr('transform', areaLabel(streamArea))
       // animate these props
       .style('opacity', 0)
@@ -226,7 +232,7 @@ export function stream({
         `;
     });
 
-    svg.node().addEventListener('mousemove', evt => {
+    svg.node().addEventListener('mousemove', (evt) => {
       const item = series.items[mouseAt.index];
       const x = evt.offsetX;
       if (!item) {
