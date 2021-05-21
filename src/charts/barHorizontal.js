@@ -4,6 +4,7 @@ import { getColor } from './helpers/getColor.js';
 import { numberFormat } from './helpers/numberFormat.js';
 import { getFontCss } from './helpers/getFontCss.js';
 import { clearChart } from './helpers/clearChart.js';
+import './helpers/checkIsTouchscreen.js';
 
 const css = `
 ${getFontCss(['roboto-400'])}
@@ -19,6 +20,9 @@ ${getFontCss(['roboto-400'])}
 .sh-chart-bar-horizontal .links {
   display: none;
   color: #999;
+}
+.sh-is-touchscreen .sh-chart-bar-horizontal .group .links {
+  display: block;
 }
 .sh-chart-bar-horizontal .group:hover .links {
   display: block;
@@ -105,10 +109,11 @@ export function barHorizontal({
       .attr('class', 'chart-bar')
       .attr('x', 0)
       .attr('y', 24)
-      .attr('width', d => d.value * scaleAt)
+      .attr('width', (d) => d.value * scaleAt)
       .attr('height', 6)
-      .attr('fill', d => d.color)
+      .attr('fill', (d) => d.color)
       // pre-animation styles
+      .style('pointer-events', 'none')
       .style('opacity', 0)
       .style('transform', 'scaleX(0.25)')
       // animation setup
@@ -127,7 +132,7 @@ export function barHorizontal({
       .attr('x', 0)
       .attr('y', 16);
     // bar label
-    label.append('tspan').text(d => d.label);
+    label.append('tspan').text((d) => d.label);
     if (links.length) {
       renderLinks(label);
     }
@@ -137,9 +142,9 @@ export function barHorizontal({
     groups
       .append('text')
       .attr('class', 'chart-value')
-      .attr('x', d => d.value * scaleAt + 6)
+      .attr('x', (d) => d.value * scaleAt + 6)
       .attr('y', 32)
-      .text(d => numberFormat(d.value))
+      .text((d) => numberFormat(d.value))
       .attr('fill', (d, i) => getColor(i, data.length))
       // pre-animation styles
       .style('opacity', 0)
@@ -176,5 +181,5 @@ export function barHorizontal({
 
 // get a function constrain a number between min and max
 function between(min, max) {
-  return num => Math.round(Math.max(min, Math.min(max, num)));
+  return (num) => Math.round(Math.max(min, Math.min(max, num)));
 }
