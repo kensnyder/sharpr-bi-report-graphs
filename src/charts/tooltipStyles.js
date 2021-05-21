@@ -30,5 +30,8 @@ const css = `
 }
 `;
 
-const style = document.createElement('style');
-style.textContent = css;
+if (!document.querySelector('#sharpr-bi-report-graphs')) {
+  const style = document.createElement('style');
+  style.id = 'sharpr-bi-report-graphs';
+  style.textContent = css;
+}
