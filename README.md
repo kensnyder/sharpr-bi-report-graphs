@@ -6,14 +6,8 @@ Functions to render graphs with d3
 
 ## barHorizontal()
 
-<img 
-  src="https://kensnyder.github.io/sharpr-bi-report-graphs/examples/barHorizontal.png" 
-  width="838"
-  alt="barHorizontal example image"
-/>
-
 ```js
-import { barHorizontal } from 'sharpr-bi-report-graphs/src/charts/barHorizontal.js';
+import { barHorizontal } from 'sharpr-bi-report-graphs';
 
 barHorizontal({
   width,                   // The width of the chart
@@ -30,16 +24,12 @@ barHorizontal({
 });
 ```
 
+![barHorizontal example image](docs/examples/barHorizontal.png)
+
 ## barVertical()
 
-<img
-  src="https://kensnyder.github.io/sharpr-bi-report-graphs/examples/barVertical.png"
-  width="838"
-  alt="barVertical example image"
-/>
-
 ```js
-import { barVertical } from 'sharpr-bi-report-graphs/src/charts/barVertical.js';
+import { barVertical } from 'sharpr-bi-report-graphs';
 
 barVertical({
   data,                    // An array of objects with props value, label
@@ -53,12 +43,12 @@ barVertical({
 });
 ```
 
+![barVertical example image](docs/examples/barVertical.png)
+
 ## bubbles()
 
-![bubbles example image](docs/examples/bubbles.png)
-
 ```js
-import { bubbles } from 'sharpr-bi-report-graphs/src/charts/bubbles.js';
+import { bubbles } from 'sharpr-bi-report-graphs';
 
 bubbles({
   data,                    // An array of objects with props value, label
@@ -70,19 +60,15 @@ bubbles({
 });
 ```
 
+![bubbles example image](docs/examples/bubbles.png)
+
 ## stream()
 
 [What is a stream chart?](https://datavizcatalogue.com/methods/stream_graph.html) |
 [Scientific paper](http://leebyron.com/streamgraph/)
 
-<img
-  src="https://kensnyder.github.io/sharpr-bi-report-graphs/examples/stream.png"
-  width="838"
-  alt="bubbles example image"
-/>
-
 ```js
-import { stream } from 'sharpr-bi-report-graphs/src/charts/stream.js';
+import { stream } from 'sharpr-bi-report-graphs';
 
 stream({
   series,                  // Data in the format outlined below
@@ -93,6 +79,8 @@ stream({
   animationOffset = 40,    // MS delay between each area animation
 });
 ```
+
+![stream example image](docs/examples/stream.png)
 
 **stream `series` format**
 
