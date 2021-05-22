@@ -61,6 +61,9 @@ export function barVertical({
   const barWidth =
     (barAreaWidth - (barSpacing * data.length - 1)) / data.length;
   const barPxPerValue = barAreaHeight / highest;
+  data.forEach((point, i) => {
+    point.index = i;
+  });
   // clear any existing chart
   clearChart(withinElement);
   // run it
@@ -108,7 +111,7 @@ export function barVertical({
         return `translate(${left}, ${top})`;
       })
       .style('cursor', onClick ? 'pointer' : 'default')
-      .on('click', onClick);
+      .on('click', (evt, d) => onClick(d, d.index, evt));
     return groups;
   }
   function renderBars(groups) {
@@ -180,9 +183,7 @@ export function barVertical({
   }
   function getYAxisValues() {
     // get labels for numbers up left side
-    const yScale = scaleLinear()
-      .domain([0, highest])
-      .nice();
+    const yScale = scaleLinear().domain([0, highest]).nice();
     const ticks = yScale.ticks(numYAxisLabels + 1);
     const values = ticks.map(value => {
       if (value > highest * 1.02) {

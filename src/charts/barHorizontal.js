@@ -99,7 +99,7 @@ export function barHorizontal({
     // .attr('fill', 'rgba(0,0,0,0.1)')
     if (onClick) {
       rect.style('cursor', 'pointer');
-      rect.on('click', onClick);
+      rect.on('click', (evt, d, i) => onClick(d, i, evt));
     }
   }
   function renderBars(groups) {
@@ -132,7 +132,11 @@ export function barHorizontal({
       .attr('x', 0)
       .attr('y', 16);
     // bar label
-    label.append('tspan').text(d => d.label);
+    const labelText = label.append('tspan').text(d => d.label);
+    if (onClick) {
+      labelText.on('click', (evt, d, i) => onClick(d, i, evt));
+      labelText.style('cursor', 'pointer');
+    }
     if (links.length) {
       renderLinks(label);
     }
@@ -167,7 +171,7 @@ export function barHorizontal({
         .text(link.text)
         .attr('fill', linkColor)
         .style('cursor', 'pointer')
-        .on('click', link.onClick);
+        .on('click', (evt, d, i) => link.onClick(d, i, evt));
       if (i < links.length - 1) {
         linkArea.append('tspan').text(' | ');
       }

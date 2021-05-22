@@ -1,27 +1,62 @@
+:root {
+  --color-fg: #333;
+  --color-bg: #f2f2f2;
+  --color-tab-border: #bbb;
+  --color-tab-bg: #d6d6d6;
+  --color-tab-fg: #555;
+  --color-link: #f05a24;
+}
 body {
   font-family: sans-serif;
-  background-color: #e0e0e0;
-  padding: 20px;
   margin: 0;
+  padding: 0;
+  color: var(--color-fg);
+  background-color: var(--color-bg);
 }
-#app {
+header,
+main {
+  display: flex;
+  justify-content: center;
+}
+header {
+  background-color: white;
+  padding: 20px 20px 0 20px;
+  border-bottom: 1px solid var(--color-tab-border);
+}
+main {
+  padding: 20px;
+}
+.content {
   width: 1075px;
 }
 h2 {
   padding: 0 0 20px 0;
   margin: 0;
 }
+a {
+  text-decoration: none;
+  color: var(--color-link);
+}
 .tabs {
-  padding-bottom: 20px;
-  color: #bbb;
+  color: var(--color-tab-fg);
 }
 .tabs a {
-  color: #777;
-  text-decoration: none;
+  color: var(--color-tab-fg);
+  padding: 10px 18px;
+  border-radius: 4px 4px 0 0;
+  margin: 0 4px 0 0;
+  border: 1px solid var(--color-tab-border);
+  border-bottom: none;
+  display: inline-block;
+  font-weight: bold;
+  background-color: var(--color-tab-bg);
 }
 .tabs .selected {
-  color: #333;
-  font-weight: bold;
+  background-color: var(--color-bg);
+  transform: translateY(1px);
+}
+#ChartTitle {
+  margin-top: 20px;
 }
 svg {
   /* draw border for debugging */

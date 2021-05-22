@@ -4,15 +4,21 @@ const { barHorizontal, barVertical, bubbles, stream, clearChart } =
 renderIndex('#app');
 
 // functions only beyond this point
+function setTitle(text) {
+  document.querySelector('#ChartTitle').textContent = text;
+}
+
 function runBarHorizontal() {
   updateSelectedTab(0);
+  setTitle('Download counts');
   const data = getRandomFiles();
   const links = [
-    { text: 'preview', onClick: (item) => alert('Preview ' + item.label) },
-    { text: 'download', onClick: (item) => alert('Download ' + item.label) },
-    { text: 'view trend', onClick: (item) => runBarVertical(item.color) }
+    { text: 'preview', onClick: item => alert('Preview ' + item.label) },
+    { text: 'download', onClick: item => alert('Download ' + item.label) },
+    { text: 'view trend', onClick: item => runBarVertical(item.color) }
   ];
-  const onClick = (item) => runBarVertical(item.color);
+  const onClick = item =>
+    runBarVertical(item.color, `Trend of downloads of "${item.label}"`);
   barHorizontal({
     width: 1100,
     data,
@@ -27,8 +33,9 @@ function runBarHorizontal() {
 
 function runBubbles() {
   updateSelectedTab(1);
+  setTitle('Top tags');
   const data = getRandomCategories();
-  const onClick = (item) => runBarVertical(item.color);
+  const onClick = item => runBarVertical(item.color);
   bubbles({
     width: 700,
     data,
@@ -39,15 +46,16 @@ function runBubbles() {
   });
 }
 
-function runBarVertical(color = '#EB2470') {
+function runBarVertical(color = '#EB2470', trendOf = '') {
   updateSelectedTab(2);
+  setTitle(trendOf || 'Trend of all downloads');
   const data = getRandomTrend();
   barVertical({
     width: 1100,
     height: 450,
     color,
     data,
-    onClick: (item, i) => alert('Clicked bar ' + (i + 1)),
+    onClick: item => alert(`Clicked "${item.label}" (${item.value})`),
     withinElement: '#ChartArea',
     animationDuration: 500,
     animationOffset: 40
@@ -56,6 +64,7 @@ function runBarVertical(color = '#EB2470') {
 
 function runStream() {
   updateSelectedTab(3);
+  setTitle('Top tags over time');
   const series = getRandomSeries();
   stream({
     width: 1100,
@@ -69,20 +78,28 @@ function runStream() {
 
 function renderIndex(withinElement) {
   document.querySelector(withinElement).innerHTML = `
-<h2>Click to show a chart with random data:</h2>
-<div style="float:right">
-	<a href id="ToPng">Save Chart</a>
-</div>
-<div class="tabs">
-	<a href data-fn="runBarHorizontal">Horizontal Bar Chart</a> |
-	<a href data-fn="runBubbles">Bubble Chart</a> |
-	<a href data-fn="runBarVertical">Trend Chart</a> |
-	<a href data-fn="runStream">Stream Chart</a>
-</div>
-<div id="ChartArea"></div>
+<header>
+  <div class="content">
+    <div style="float:right">
+      <a href id="ToPng">Save Chart</a>
+    </div>
+    <div class="tabs">
+      <a href data-fn="runBarHorizontal">Horizontal Bar Chart</a>
+      <a href data-fn="runBubbles">Bubble Chart</a>
+      <a href data-fn="runBarVertical">Trend Chart</a>
+      <a href data-fn="runStream">Stream Chart</a>
+    </div>
+  </div>
+</header>
+<main>
+  <div class="content">
+    <h1 id="ChartTitle"></h1>
+    <div id="ChartArea"></div>
+  </div>
+</main>
 `;
 
-  document.querySelector('.tabs').addEventListener('click', (evt) => {
+  document.querySelector('.tabs').addEventListener('click', evt => {
     const fns = {
       runBarHorizontal,
       runBarVertical,
@@ -95,7 +112,7 @@ function renderIndex(withinElement) {
       fn();
     }
   });
-  document.querySelector('#ToPng').addEventListener('click', (evt) => {
+  document.querySelector('#ToPng').addEventListener('click', evt => {
     evt.preventDefault();
     const svg = document.querySelector('#ChartArea svg');
     saveSvgAsPng(svg, `chart.png`);
@@ -107,6 +124,6 @@ function renderIndex(withinElement) {
 
 function updateSelectedTab(n) {
   const links = [...document.querySelectorAll('.tabs a')];
-  links.forEach((link) => link.classList.remove('selected'));
+  links.forEach(link => link.classList.remove('selected'));
   links[n].classList.add('selected');
 }

@@ -99,7 +99,7 @@ export function bubbles({
       .attr('r', node => node.r)
       .style('fill', node => node.data.color)
       // handling click
-      .on('click', (node, i) => onClick(node.data, i))
+      .on('click', (evt, node, i) => onClick(node.data, i, evt))
       // pre-animation styles
       .style('opacity', 0)
       .style('transform', 'scale(0.80)')
@@ -132,6 +132,7 @@ export function bubbles({
     return tip;
   }
   function renderLabels(bubbles) {
+    // item label
     bubbles
       .append('text')
       .attr('class', 'bubble-label')
@@ -149,6 +150,7 @@ export function bubbles({
       // post-animation styles
       .style('opacity', 1)
       .style('transform', 'rotate(0)');
+    // number
     bubbles
       .append('text')
       .attr('class', 'bubble-amount')
@@ -159,14 +161,14 @@ export function bubbles({
       .text(node => numberFormat(node.data.actualCount))
       // pre-animation styles
       .style('opacity', 0)
-      .style('transform', `rotate(${rotateDeg}deg)`)
+      .style('transform', `scale(3)`)
       // animation setup
       .transition()
       .duration(animationDuration)
       .delay((node, i) => animationOffset * i)
       // post-animation styles
       .style('opacity', 1)
-      .style('transform', 'rotate(0)');
+      .style('transform', 'scale(1)');
   }
   function truncateLongLabels() {
     const container = svg.node();
