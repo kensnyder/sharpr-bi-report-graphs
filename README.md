@@ -9,7 +9,7 @@ Functions to render graphs with d3
 <img 
   src="https://kensnyder.github.io/sharpr-bi-report-graphs/examples/barHorizontal.png" 
   width="838"
-  alt="barHorizontal example"
+  alt="barHorizontal example image"
 />
 
 ```js
@@ -35,7 +35,7 @@ barHorizontal({
 <img
   src="https://kensnyder.github.io/sharpr-bi-report-graphs/examples/barVertical.png"
   width="838"
-  alt="barVertical example"
+  alt="barVertical example image"
 />
 
 ```js
@@ -55,11 +55,7 @@ barVertical({
 
 ## bubbles()
 
-<img
-  src="https://kensnyder.github.io/sharpr-bi-report-graphs/examples/bubbles.png"
-  width="838"
-  alt="bubbles example"
-/>
+![bubbles example image](docs/examples/bubbles.png)
 
 ```js
 import { bubbles } from 'sharpr-bi-report-graphs/src/charts/bubbles.js';
@@ -82,7 +78,7 @@ bubbles({
 <img
   src="https://kensnyder.github.io/sharpr-bi-report-graphs/examples/stream.png"
   width="838"
-  alt="bubbles example"
+  alt="bubbles example image"
 />
 
 ```js
