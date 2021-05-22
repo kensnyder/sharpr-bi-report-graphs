@@ -32,6 +32,7 @@ const css = `
 
 if (!document.querySelector('#sharpr-bi-report-graphs')) {
   const style = document.createElement('style');
-  style.id = 'sharpr-bi-report-graphs';
+  style.id = 'sh-bi-report-graphs';
   style.textContent = css;
+  document.head.appendChild(style);
 }

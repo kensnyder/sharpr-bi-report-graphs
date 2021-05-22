@@ -10,20 +10,20 @@ const colorLookup = [
 ];
 // get Sean's color scheme
 export function getColor(idx, total) {
-	let colorIdx = null;
-	let itemIdx = null
+  let colorIdx = null;
+  let itemIdx = null;
 
-	for (const idxList of colorLookup) {
-		if (idxList.length >= total) {
-			colorIdx = idxList;
-			itemIdx = idx;
-		}
-	}
+  for (const idxList of colorLookup) {
+    if (idxList.length >= total) {
+      colorIdx = idxList;
+      itemIdx = idx;
+    }
+  }
 
-	if (colorIdx === null) {
-		colorIdx = colorLookup[colorLookup.length - 1];
-		itemIdx = idx % colorIdx.length;
-	}
+  if (colorIdx === null) {
+    colorIdx = colorLookup[colorLookup.length - 1];
+    itemIdx = idx % colorIdx.length;
+  }
 
-	return '#' + colorList[colorIdx[itemIdx]];
+  return '#' + colorList[colorIdx[itemIdx]];
 }

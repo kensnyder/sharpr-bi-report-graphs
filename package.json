@@ -1,6 +1,6 @@
 {
-  "name": "sharpr-bi-report-graphs",
-  "version": "1.1.6",
+  "name": "sh-bi-report-graphs",
+  "version": "1.1.7",
   "description": "Functions to render graphs with d3",
   "repository": "https://github.com/kensnyder/sharpr-bi-report-graphs",
   "license": "ISC",
@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "npx rollup -c -w",
-    "build": "npx rollup -c"
+    "build": "rm docs/index.js && npx rollup -c && mv dist/index.js docs"
   },
   "dependencies": {
     "d3-area-label": "1.5.0",
@@ -33,7 +33,6 @@
     "stream chart"
   ],
   "devDependencies": {
-    "@guanghechen/rollup-plugin-copy": "^1.5.1",
     "@rollup/plugin-commonjs": "^19.0.0",
     "@rollup/plugin-node-resolve": "^13.0.0",
     "prettier": "^2.3.0",

@@ -2,11 +2,15 @@
 
 Functions to render graphs with d3
 
-[Demo](demo/index.html)
+[Demo](https://kensnyder.github.io/sharpr-bi-report-graphs/)
 
 ## barHorizontal()
 
-Example usage:
+<img 
+  src="https://kensnyder.github.io/sharpr-bi-report-graphs/examples/barHorizontal.png" 
+  width="838"
+  alt="barHorizontal example"
+/>
 
 ```js
 import { barHorizontal } from 'sharpr-bi-report-graphs/src/charts/barHorizontal.js';
@@ -28,7 +32,11 @@ barHorizontal({
 
 ## barVertical()
 
-Example usage:
+<img
+  src="https://kensnyder.github.io/sharpr-bi-report-graphs/examples/barVertical.png"
+  width="838"
+  alt="barVertical example"
+/>
 
 ```js
 import { barVertical } from 'sharpr-bi-report-graphs/src/charts/barVertical.js';
@@ -47,7 +55,11 @@ barVertical({
 
 ## bubbles()
 
-Example usage:
+<img
+  src="https://kensnyder.github.io/sharpr-bi-report-graphs/examples/bubbles.png"
+  width="838"
+  alt="bubbles example"
+/>
 
 ```js
 import { bubbles } from 'sharpr-bi-report-graphs/src/charts/bubbles.js';
@@ -67,7 +79,11 @@ bubbles({
 [What is a stream chart?](https://datavizcatalogue.com/methods/stream_graph.html) |
 [Scientific paper](http://leebyron.com/streamgraph/)
 
-Example usage:
+<img
+  src="https://kensnyder.github.io/sharpr-bi-report-graphs/examples/stream.png"
+  width="838"
+  alt="bubbles example"
+/>
 
 ```js
 import { stream } from 'sharpr-bi-report-graphs/src/charts/stream.js';
@@ -82,7 +98,7 @@ stream({
 });
 ```
 
-### `series` format
+**stream `series` format**
 
 Example data:
 

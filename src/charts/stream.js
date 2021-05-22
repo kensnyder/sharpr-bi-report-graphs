@@ -56,7 +56,7 @@ export function stream({
     const data = [];
     data.keys = [];
     data.colors = [];
-    series.items.forEach((item) => {
+    series.items.forEach(item => {
       item.values.forEach((value, i) => {
         if (!data[i]) {
           data[i] = { time: i };
@@ -82,9 +82,11 @@ export function stream({
     const mouseAt = {
       index: null,
       element: null,
-      enter: function (d, i) {
-        mouseAt.index = i;
+      enter: function (evt, item) {
+        mouseAt.index = item.index;
         mouseAt.element = this;
+        mouseAt.x = evt.offsetX;
+        mouseAt.y = evt.offsetY;
       },
       leave: function () {
         mouseAt.index = null;
@@ -96,14 +98,14 @@ export function stream({
 
   function renderData() {
     const streamStack = stack().offset(stackOffsetWiggle);
-    const xValue = (d) => d.time;
+    const xValue = d => d.time;
     const xScale = scaleLinear();
     const yScale = scaleLinear();
 
     const streamArea = area()
-      .x((d) => xScale(xValue(d.data)))
-      .y0((d) => yScale(d[0]))
-      .y1((d) => yScale(d[1]))
+      .x(d => xScale(xValue(d.data)))
+      .y0(d => yScale(d[0]))
+      .y1(d => yScale(d[1]))
       .curve(curveBasis);
 
     streamStack.keys(data.keys);
@@ -124,11 +126,11 @@ export function stream({
       .domain([
         Math.min.apply(
           Math,
-          stacked[0].map((d) => d[0])
+          stacked[0].map(d => d[0])
         ),
         Math.max.apply(
           Math,
-          stacked[stacked.length - 1].map((d) => d[1])
+          stacked[stacked.length - 1].map(d => d[1])
         )
       ])
       .range([height - xAxisHeight, 0]);
@@ -164,7 +166,7 @@ export function stream({
       .append('text')
       .attr('class', 'area-label')
       .merge(labels)
-      .text((d) => d.key)
+      .text(d => d.key)
       .attr('transform', areaLabel(streamArea))
       // animate these props
       .style('opacity', 0)
@@ -222,26 +224,26 @@ export function stream({
     tip.attr('class', 'sh-chart-tip-outer').html(({ label, date, amount }) => {
       const color = getColor(mouseAt.index, data.keys.length + 1);
       return `
-          <div class="sh-chart-tip" style="background-color: ${color}">
-           <span class="sh-chart-tip-date">${date}:</span>
-           <span style="sh-chart-tip-amount">${label} (${numberFormat(
-        amount
-      )})</span>
-          </div>
-          <div class="sh-chart-stem" style="border-color: ${color} transparent transparent transparent"></div>
-        `;
+        <div class="sh-chart-tip" style="background-color: ${color}">
+          <span class="sh-chart-tip-date">${date}:</span>
+          <span style="sh-chart-tip-amount">
+            ${label} (${numberFormat(amount)})
+          </span>
+        </div>
+        <div class="sh-chart-stem" style="border-color: ${color} transparent transparent transparent"></div>
+      `;
     });
 
-    svg.node().addEventListener('mousemove', (evt) => {
+    svg.node().addEventListener('mousemove', evt => {
       const item = series.items[mouseAt.index];
       const x = evt.offsetX;
       if (!item) {
-        // too far up or down: hide tooltip
+        // off the chart too high or too low: hide tooltip
         tip.hide();
         return;
       }
       if (x < sidePadding || x > width - sidePadding) {
-        // too far left or right: hide tooltop
+        // off the chart too far left or right: hide tooltip
         tip.hide();
         return;
       }
@@ -249,7 +251,9 @@ export function stream({
       const idx = Math.round((x - sidePadding) / xInterval);
       const date = series.dates[idx];
       const amount = series.items[mouseAt.index].values[idx];
-      tip.offset([0, x - width / 2]);
+      const top = evt.offsetY - mouseAt.y - data.length / height;
+      const left = x - width / 2;
+      tip.offset([top, left]);
       tip.show({ label, date, amount }, mouseAt.element);
     });
   }
